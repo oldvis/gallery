@@ -1,0 +1,22 @@
+{
+  "cSpell.words": [
+    "Attributify",
+    "composables",
+    "Iconify",
+    "taze",
+    "typecheck",
+    "unocss",
+    "unplugin",
+    "Vite",
+    "Vitesse",
+    "vueuse"
+  ],
+  "prettier.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "editor.formatOnSave": false
+}
