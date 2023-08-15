@@ -35,12 +35,17 @@ jobs:
         run: pnpm i
 
       - name: Build
+        env:
+          # https://stackoverflow.com/questions/38558989/node-js-heap-out-of-memory/66914674#66914674
+          NODE_OPTIONS: --max_old_space_size=4096
         run: pnpm run build
 
       - name: Test
         run: pnpm run test
 
       - name: Lint
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
         run: pnpm run lint
 
       - name: TypeCheck

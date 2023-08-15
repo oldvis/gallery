@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 
 import path from 'node:path'
+import process from 'node:process'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -10,6 +11,7 @@ import UnoCSS from 'unocss/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/2023.OldVisOnline.gallery/' : '/',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

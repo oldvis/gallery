@@ -1,15 +1,24 @@
 {
   "cSpell.words": [
     "Attributify",
+    "autodocs",
+    "chromedark",
     "composables",
     "Iconify",
+    "oldvis",
+    "persistedstate",
+    "phash",
+    "pinia",
+    "rgba",
     "taze",
     "typecheck",
     "unocss",
     "unplugin",
+    "uuidv4",
     "Vite",
     "Vitesse",
-    "vueuse"
+    "vueuse",
+    "xmark"
   ],
   "prettier.enable": false,
   "editor.codeActionsOnSave": {
