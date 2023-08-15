@@ -11,7 +11,7 @@ import UnoCSS from 'unocss/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/2023.OldVisOnline.gallery/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/gallery/' : '/',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
