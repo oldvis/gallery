@@ -45,7 +45,10 @@ const isHttps = (url: string | null | undefined): boolean => {
       </div>
       <b>{{ datum.displayName }}</b>
     </div>
-    <div class="flex pt-1 gap-1">
+    <div
+      class="pt-1 gap-1"
+      flex="~ col sm:row"
+    >
       <div class="basis-4/10">
         <img
           v-if="isHttps(datum.downloadUrl)"

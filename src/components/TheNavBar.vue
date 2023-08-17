@@ -17,9 +17,10 @@ const relativePath = parts[parts.length - 1]
     <span class="text-lg font-bold">
       OldVisOnline
     </span>
-    <div class="hidden md:flex gap-6 text-sm items-center ml-auto">
+    <div class="flex gap-6 text-sm items-center ml-auto">
       <a
         icon-btn
+        display="none sm:inherit"
         :href="`${BASE_URL}View`"
         :class="{ 'text-teal-600': ['View', ''].includes(relativePath) }"
       >
@@ -27,6 +28,7 @@ const relativePath = parts[parts.length - 1]
       </a>
       <a
         icon-btn
+        display="none sm:inherit"
         :href="`${BASE_URL}Contribute`"
         :class="{ 'text-teal-600': relativePath === 'Contribute' }"
       >
