@@ -10,7 +10,8 @@ interface RawAuthor {
   name: string
   birth: TimePoint | [TimePoint, TimePoint] | null
   death: TimePoint | [TimePoint, TimePoint] | null
-  occupation: string | null
+  occupations: string[]
+  roles: string[]
   input: string
 }
 
