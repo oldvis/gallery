@@ -112,10 +112,6 @@ const yAxis = computed(() => (
   axisLeft(yScale.value).ticks(height / 40, format('d'))
 ))
 
-const step = computed(() => (
-  ((bins.value[0].x1 as number) - (bins.value[0].x0 as number))
-))
-
 // Add the x-axis and label.
 const gX = ref<SVGGElement>()
 watchEffect(() => {
@@ -123,10 +119,7 @@ watchEffect(() => {
   gX.value.innerHTML = ''
   select(gX.value).call(xAxis.value)
   selectAll('.tick')
-    .on('click', (_, d: unknown) => emit('clickBar', [d, d as number + step.value]))
-    .call((g) => g.select('text')
-      .style('font-size', '0.5rem')
-      .style('cursor', 'pointer'))
+    .call((g) => g.select('text').style('font-size', '0.5rem'))
 })
 
 // Add the y-axis and label, and remove the domain line.
@@ -154,16 +147,27 @@ watchEffect(() => {
   >
     <g ref="gY" :transform="`translate(${marginLeft},0)`" />
     <g :fill="color">
-      <rect
+      <g
         v-for="(d, i) in bins"
         :key="i"
-        :x="xScale(d.x0 as number) + xPadding"
-        :y="yScale(d.length)"
-        :height="Math.max(0, yScale(0) - yScale(d.length))"
-        :width="Math.max(0, xScale(d.x1 as number) - xScale(d.x0 as number) - xPadding)"
-        style="cursor: pointer;"
-        @click="emit('clickBar', [d.x0, d.x1])"
-      />
+      >
+        <rect
+          :x="xScale(d.x0 as number) + xPadding"
+          :y="yScale(d.length)"
+          :height="Math.max(0, yScale(0) - yScale(d.length))"
+          :width="Math.max(0, xScale(d.x1 as number) - xScale(d.x0 as number) - xPadding)"
+        />
+        <rect
+          hover:fill="opacity-50 teal-700"
+          :x="xScale(d.x0 as number) + xPadding"
+          :y="yScale(_yDomain[1])"
+          :height="Math.max(0, yScale(0) - yScale(_yDomain[1]))"
+          :width="Math.max(0, xScale(d.x1 as number) - xScale(d.x0 as number) - xPadding)"
+          fill="rgba(0, 0, 0, 0)"
+          style="cursor: pointer;"
+          @click="emit('clickBar', [d.x0, d.x1])"
+        />
+      </g>
     </g>
     <g ref="gX" :transform="`translate(0,${height - marginBottom})`" />
   </svg>
