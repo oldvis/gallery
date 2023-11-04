@@ -87,7 +87,7 @@ export const useStore = defineStore('selectors', {
     toggleRangeSelector(field: string, range: [unknown, unknown]): void {
       this.toggleSelector(buildRangeSelector(field, range))
     },
-    /** Add/Remove a selector checking datum[field] in closed range [left, right]. */
+    /** Add a selector matching the pattern with data entries. */
     addSearchSelector(pattern: string): void {
       const options = {
         threshold: 0,

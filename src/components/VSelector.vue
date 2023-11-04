@@ -2,7 +2,7 @@
 import { SelectorType } from '~/stores/selector'
 import type { Selector } from '~/stores/selector'
 
-const { selector } = defineProps({
+const props = defineProps({
   selector: {
     type: Object as PropType<Selector>,
     required: true,
@@ -12,32 +12,34 @@ const emit = defineEmits<{
   (e: 'removeSelector', d: Selector<SelectorType>): void
 }>()
 
+const { selector } = toRefs(props)
+
 const isEqualSelector = computed(() => {
-  if (selector.type !== SelectorType.Sift) return false
-  const { query } = selector as Selector<SelectorType.Sift>
+  if (selector.value.type !== SelectorType.Sift) return false
+  const { query } = selector.value as Selector<SelectorType.Sift>
   return (Object.values(query).length === 1)
         && ('$eq' in Object.values(query)[0])
 })
 const isRangeSelector = computed(() => {
-  if (selector.type !== SelectorType.Sift) return false
-  const { query } = selector as Selector<SelectorType.Sift>
+  if (selector.value.type !== SelectorType.Sift) return false
+  const { query } = selector.value as Selector<SelectorType.Sift>
   return (Object.values(query).length === 1)
     && ('$gte' in Object.values(query)[0])
     && ('$lt' in Object.values(query)[0])
 })
 const isSearchSelector = computed(() => (
-  selector.type === SelectorType.Fuse
+  selector.value.type === SelectorType.Fuse
 ))
 const text = computed(() => {
   if (isEqualSelector.value) {
-    const query = selector.query as Selector<SelectorType.Sift>['query']
+    const query = selector.value.query as Selector<SelectorType.Sift>['query']
     return `
       '${(Object.values(query)[0]).$eq}'
       ∈ ${Object.keys(query)[0]}
     `
   }
   if (isRangeSelector.value) {
-    const query = selector.query as Selector<SelectorType.Sift>['query']
+    const query = selector.value.query as Selector<SelectorType.Sift>['query']
     return `
       ${Object.keys(query)[0]}
       ∈ [${(Object.values(query)[0]).$gte},
@@ -45,7 +47,7 @@ const text = computed(() => {
     `
   }
   if (isSearchSelector.value) {
-    return `search: '${(selector as Selector<SelectorType.Fuse>).query.pattern}'`
+    return `search: '${(selector.value as Selector<SelectorType.Fuse>).query.pattern}'`
   }
   return ''
 })
