@@ -3,7 +3,7 @@ import { promiseTimeout } from '@vueuse/core'
 import { MessageType } from '~/stores/message'
 import type { Message } from '~/stores/message'
 
-const { message } = defineProps({
+const props = defineProps({
   message: {
     type: Object as PropType<Message>,
     required: true,
@@ -13,11 +13,12 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
+const { message } = toRefs(props)
 const show = ref(true)
 
 onMounted(async () => {
-  if (message.timeout === Number.POSITIVE_INFINITY) return
-  await promiseTimeout(message.timeout)
+  if (message.value.timeout === Number.POSITIVE_INFINITY) return
+  await promiseTimeout(message.value.timeout)
   show.value = false
 })
 watch(show, (d) => {

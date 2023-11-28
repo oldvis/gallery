@@ -6,7 +6,7 @@ import type { Visualization } from '~/plugins/visualization'
 import { useStore } from '~/stores/message'
 import { isDark } from '~/composables/dark'
 
-const { datum, index } = defineProps({
+const props = defineProps({
   /** Render the given part of the visualization metadata. */
   datum: {
     type: Object as PropType<Partial<Visualization>>,
@@ -18,12 +18,13 @@ const { datum, index } = defineProps({
   },
 })
 
+const { datum } = toRefs(props)
 const showMetadata = ref(false)
 const { addSuccessMessage } = useStore()
 const { copy } = useClipboard()
 
 const onClickCopy = () => {
-  copy(JSON.stringify(datum))
+  copy(JSON.stringify(datum.value))
   addSuccessMessage('Metadata Copied.')
 }
 const isHttps = (url: string | null | undefined): boolean => {

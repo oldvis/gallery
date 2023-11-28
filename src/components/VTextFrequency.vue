@@ -6,7 +6,7 @@ interface Datum {
   selected?: boolean
 }
 
-const { data } = defineProps({
+const props = defineProps({
   data: {
     type: Array as PropType<Datum[]>,
     required: true,
@@ -16,8 +16,9 @@ const emit = defineEmits<{
   (e: 'clickDatum', d: Datum): void
 }>()
 
+const { data } = toRefs(props)
 const dataSorted = computed(() => (
-  [...data].sort((a, b) => (b.frequency - a.frequency))
+  [...data.value].sort((a, b) => (b.frequency - a.frequency))
 ))
 </script>
 

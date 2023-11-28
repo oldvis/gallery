@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { title, field, count } = defineProps<{
+defineProps<{
   title: string
   field: string
   count: number

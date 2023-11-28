@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toRefs } from 'vue'
 import {
   axisBottom,
   axisLeft,
@@ -9,20 +10,7 @@ import {
   selectAll,
 } from 'd3'
 
-const {
-  data,
-  nThresholds,
-  width,
-  height,
-  marginTop,
-  marginRight,
-  marginBottom,
-  marginLeft,
-  xDomain,
-  yDomain,
-  xPadding,
-  color,
-} = defineProps({
+const props = defineProps({
   data: {
     type: Array as PropType<number[]>,
     required: true,
@@ -83,33 +71,47 @@ const {
     default: 'currentColor',
   },
 })
-
 const emit = defineEmits(['clickBar'])
+
+const {
+  data,
+  nThresholds,
+  width,
+  height,
+  marginTop,
+  marginRight,
+  marginBottom,
+  marginLeft,
+  xDomain,
+  yDomain,
+  xPadding,
+  color,
+} = toRefs(props)
 
 // Bin the data.
 const bins = computed(() => (
-  bin().thresholds(nThresholds).value((d) => d)(data)
+  bin().thresholds(nThresholds.value).value((d) => d)(data.value)
 ))
 
 // Compute default domains, and unique the x-domain.
 const _xDomain = computed(() => (
-  xDomain ?? [bins.value[0].x0, bins.value[bins.value.length - 1].x1]
+  xDomain.value ?? [bins.value[0].x0, bins.value[bins.value.length - 1].x1]
 ))
 const _yDomain = computed(() => (
-  yDomain ?? [0, Math.max(...bins.value.map((d) => d.length))]
+  yDomain.value ?? [0, Math.max(...bins.value.map((d) => d.length))]
 ))
 
 const xScale = computed(() => (
-  scaleLinear(_xDomain.value, [marginLeft, width - marginRight])
+  scaleLinear(_xDomain.value, [marginLeft.value, width.value - marginRight.value])
 ))
 const yScale = computed(() => (
-  scaleLinear(_yDomain.value, [height - marginBottom, marginTop])
+  scaleLinear(_yDomain.value, [height.value - marginBottom.value, marginTop.value])
 ))
 const xAxis = computed(() => (
-  axisBottom(xScale.value).ticks(Math.min(width / 20, nThresholds), format('d'))
+  axisBottom(xScale.value).ticks(Math.min(width.value / 20, nThresholds.value), format('d'))
 ))
 const yAxis = computed(() => (
-  axisLeft(yScale.value).ticks(height / 40, format('d'))
+  axisLeft(yScale.value).ticks(height.value / 40, format('d'))
 ))
 
 // Add the x-axis and label.
@@ -131,7 +133,7 @@ watchEffect(() => {
     .call(yAxis.value)
     .call((g) => g.select('.domain').remove())
     .call((g) => g.selectAll('.tick line').clone()
-      .attr('x2', width - marginLeft - marginRight)
+      .attr('x2', width.value - marginLeft.value - marginRight.value)
       .attr('stroke-opacity', 0.1))
   selectAll('.tick')
     .call((g) => g.select('text').style('font-size', '0.5rem'))

@@ -3,7 +3,9 @@ import { storeToRefs } from 'pinia'
 import { useStore as useVisStore } from '~/stores/visualization'
 import { useStore as useSelectorStore } from '~/stores/selector'
 
-const binStep = defineModel()
+const binStep = defineModel({
+  type: Number as PropType<number>,
+})
 
 const { visualizations } = storeToRefs(useVisStore())
 const years = computed(() => (
