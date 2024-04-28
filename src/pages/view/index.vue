@@ -4,7 +4,7 @@
     <div
       class="gap-1 flex-1"
       display="none sm:flex"
-      flex="col"
+      flex="~ col"
     >
       <TheViewTime class="basis-1/4" />
       <div

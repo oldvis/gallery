@@ -23,5 +23,5 @@
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["dist", "node_modules", "storybook-static"]
+  "exclude": ["dist", "node_modules"]
 }
