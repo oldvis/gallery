@@ -21,9 +21,11 @@ If you use the gallery in a scientific publication, we would appreciate citation
 ```
 @Article{Zhang2023OldVisOnline,
   author        = {Zhang, Yu and Jiang, Ruike and Xie, Liwenhan and Zhao, Yuheng and Liu, Can and Ding, Tianhong and Chen, Siming and Yuan, Xiaoru},
-  title         = {OldVisOnline: Curating a Dataset of Historical Visualizations},
+  title         = {{OldVisOnline}: Curating a Dataset of Historical Visualizations},
   doi           = {10.1109/TVCG.2023.3326908},
-  pages         = {1--11},
+  volume        = {30},
+  number        = {1},
+  pages         = {551--561},
   journal       = {IEEE Transactions on Visualization and Computer Graphics},
   publisher     = {IEEE},
   year          = {2023},
