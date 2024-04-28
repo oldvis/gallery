@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import sift from 'sift'
 import type { Query } from 'sift'
 import Fuse from 'fuse.js'
+import type { IFuseOptions } from 'fuse.js'
 import { isEqual } from 'lodash'
 import type { Visualization } from '~/plugins/visualization'
 
@@ -22,7 +23,7 @@ export interface Selector<Type extends SelectorType = SelectorType> {
     : (Type extends SelectorType.Fuse
         ? {
             pattern: string
-            options: Fuse.IFuseOptions<Visualization>
+            options: IFuseOptions<Visualization>
           }
         : null)
   /** The uuid of the selector. */
@@ -50,7 +51,7 @@ const buildRangeSelector = (
 
 const buildSearchSelector = (
   pattern: string,
-  options: Fuse.IFuseOptions<Visualization>,
+  options: IFuseOptions<Visualization>,
 ): Selector<SelectorType.Fuse> => ({
   type: SelectorType.Fuse,
   query: { pattern, options },

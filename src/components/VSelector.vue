@@ -18,7 +18,7 @@ const isEqualSelector = computed(() => {
   if (selector.value.type !== SelectorType.Sift) return false
   const { query } = selector.value as Selector<SelectorType.Sift>
   return (Object.values(query).length === 1)
-        && ('$eq' in Object.values(query)[0])
+    && ('$eq' in Object.values(query)[0])
 })
 const isRangeSelector = computed(() => {
   if (selector.value.type !== SelectorType.Sift) return false
