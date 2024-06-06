@@ -3,7 +3,7 @@ import { onKeyStroke, useFocus } from '@vueuse/core'
 import { useStore } from '~/stores/selector'
 
 const input = ref('')
-const target = ref()
+const target = ref<HTMLInputElement>()
 const { focused } = useFocus(target)
 const { addSearchSelector } = useStore()
 const onSearch = () => {
