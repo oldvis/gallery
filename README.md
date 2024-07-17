@@ -6,17 +6,19 @@
 
 A web-based gallery of old visualizations ([live demo](https://oldvis.github.io/gallery/)).
 
+The gallery uses the dataset from [oldvis_dataset](https://github.com/oldvis/oldvis_dataset).
+
 ## Development Instructions
 
-- Clone the repository.
-- Run `pnpm install` to install dependencies (make sure you have [node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) installed before).
-- Run `pnpm run dev` to launch the dev server.
+1. Clone this repository.
+2. Run `pnpm install` to install dependencies (make sure you have [node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) installed before).
+3. Run `pnpm run dev` to launch the dev server.
 
 This repository is initialized with the [vitesse-lite template](https://github.com/antfu/vitesse-lite).
 
 ## Reference
 
-If you use the gallery in a scientific publication, we would appreciate citations to the following paper:
+If you use this gallery in a scientific publication, we would appreciate citations to the following paper:
 
 ```
 @Article{Zhang2023OldVisOnline,
