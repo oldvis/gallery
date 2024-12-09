@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useStore as useVisStore } from '~/stores/visualization'
 import { useStore as useSelectorStore } from '~/stores/selector'
+import { useStore as useVisStore } from '~/stores/visualization'
 
 const { visualizations } = storeToRefs(useVisStore())
 /** The number of shown visualizations. */

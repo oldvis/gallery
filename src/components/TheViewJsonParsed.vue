@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { VObjectInspector } from 'v-object-inspector'
-import 'v-object-inspector/dist/style.css'
-import { useStore } from '~/stores/json'
 import { isDark } from '~/composables/dark'
+import { useStore } from '~/stores/json'
+import 'v-object-inspector/dist/style.css'
 
 const { parsed, validJson } = storeToRefs(useStore())
 </script>

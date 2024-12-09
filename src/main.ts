@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import routes from 'virtual:generated-pages'
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'

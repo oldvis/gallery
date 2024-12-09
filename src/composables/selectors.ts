@@ -1,6 +1,6 @@
+import type { Selector } from '~/stores/selector'
 import { storeToRefs } from 'pinia'
 import { SelectorType, useStore as useSelectorStore } from '~/stores/selector'
-import type { Selector } from '~/stores/selector'
 
 /** Use the selected values for the given field. */
 export const useSelected = (fieldName: string): ComputedRef<Set<string>> => {

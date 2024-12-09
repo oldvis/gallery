@@ -1,11 +1,11 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { v4 as uuidv4 } from 'uuid'
-import sift from 'sift'
-import type { Query } from 'sift'
-import Fuse from 'fuse.js'
 import type { IFuseOptions } from 'fuse.js'
-import { isEqual } from 'lodash'
+import type { Query } from 'sift'
 import type { Visualization } from '~/plugins/visualization'
+import Fuse from 'fuse.js'
+import { isEqual } from 'lodash'
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import sift from 'sift'
+import { v4 as uuidv4 } from 'uuid'
 
 export enum SelectorType {
   /** The type of selectors that follow Mongodb query schema. */

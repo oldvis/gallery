@@ -1,6 +1,6 @@
-import Ajv from 'ajv'
 import type { JSONSchemaType } from 'ajv'
 import type { Visualization } from '~/plugins/visualization'
+import Ajv from 'ajv'
 
 /** Schema of a partial visualization entry. */
 const schema: JSONSchemaType<Partial<Visualization>> = {

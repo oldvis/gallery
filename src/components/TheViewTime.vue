@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useElementSize } from '@vueuse/core'
-import { useStore as useVisStore } from '~/stores/visualization'
+import { storeToRefs } from 'pinia'
 import { useStore as useSelectorStore } from '~/stores/selector'
+import { useStore as useVisStore } from '~/stores/visualization'
 
 const { visualizations } = storeToRefs(useVisStore())
 const binStep = ref(50)

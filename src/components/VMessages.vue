@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import VMessage from './VMessage.vue'
 import { useStore } from '~/stores/message'
+import VMessage from './VMessage.vue'
 
 const messageStore = useStore()
 const { messages } = storeToRefs(messageStore)

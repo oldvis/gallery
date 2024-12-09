@@ -2,13 +2,13 @@
 
 import path from 'node:path'
 import process from 'node:process'
-import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import Pages from 'vite-plugin-pages'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
+import Pages from 'vite-plugin-pages'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/gallery/' : '/',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SelectorType } from '~/stores/selector'
 import type { Selector } from '~/stores/selector'
+import { SelectorType } from '~/stores/selector'
 
 const props = defineProps({
   selector: {

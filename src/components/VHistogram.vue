@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { toRefs } from 'vue'
 import {
   axisBottom,
   axisLeft,
@@ -9,6 +8,7 @@ import {
   select,
   selectAll,
 } from 'd3'
+import { toRefs } from 'vue'
 
 const props = defineProps({
   data: {
@@ -132,9 +132,7 @@ watchEffect(() => {
   select(gY.value)
     .call(yAxis.value)
     .call((g) => g.select('.domain').remove())
-    .call((g) => g.selectAll('.tick line').clone()
-      .attr('x2', width.value - marginLeft.value - marginRight.value)
-      .attr('stroke-opacity', 0.1))
+    .call((g) => g.selectAll('.tick line').clone().attr('x2', width.value - marginLeft.value - marginRight.value).attr('stroke-opacity', 0.1))
   selectAll('.tick')
     .call((g) => g.select('text').style('font-size', '0.5rem'))
 })

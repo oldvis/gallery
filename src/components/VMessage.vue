@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { Message } from '~/stores/message'
 import { promiseTimeout } from '@vueuse/core'
 import { MessageType } from '~/stores/message'
-import type { Message } from '~/stores/message'
 
 const props = defineProps({
   message: {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { Visualization } from '~/plugins/visualization'
 import { useClipboard } from '@vueuse/core'
 import { VObjectInspector } from 'v-object-inspector'
-import 'v-object-inspector/dist/style.css'
-import type { Visualization } from '~/plugins/visualization'
-import { useStore } from '~/stores/message'
 import { isDark } from '~/composables/dark'
+import { useStore } from '~/stores/message'
+import 'v-object-inspector/dist/style.css'
 
 const props = defineProps({
   /** Render the given part of the visualization metadata. */
