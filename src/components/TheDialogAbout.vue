@@ -34,6 +34,8 @@ const dialog = ref(false)
           This website is a gallery of old visualizations.
           The old visualizations are collected from multiple data sources.
           The copyright of the images belongs to their corresponding owners as shown in the metadata.
+          Your are welcome to contribute to this gallery in the
+          <a class="hover:underline" target="_blank" href="https://github.com/oldvis/gallery">GitHub repository</a>.
         </div>
       </div>
     </template>

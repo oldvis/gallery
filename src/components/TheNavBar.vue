@@ -1,9 +1,3 @@
-<script setup lang="ts">
-const { BASE_URL } = import.meta.env
-const parts = document.URL.split('/')
-const relativePath = parts[parts.length - 1]
-</script>
-
 <template>
   <nav
     class="flex"
@@ -18,22 +12,6 @@ const relativePath = parts[parts.length - 1]
       OldVisOnline
     </span>
     <div class="flex gap-6 text-sm items-center ml-auto">
-      <a
-        icon-btn
-        display="none sm:inherit"
-        :href="`${BASE_URL}View`"
-        :class="{ 'text-teal-600': ['View', ''].includes(relativePath) }"
-      >
-        View
-      </a>
-      <a
-        icon-btn
-        display="none sm:inherit"
-        :href="`${BASE_URL}Contribute`"
-        :class="{ 'text-teal-600': relativePath === 'Contribute' }"
-      >
-        Contribute
-      </a>
       <TheDialogAbout />
       <button icon-btn @click="toggleDark()">
         <div i-fa6-regular:sun dark:i-fa6-regular:moon />
