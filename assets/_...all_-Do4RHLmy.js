@@ -1,0 +1,1 @@
+import{_ as t,c as e,o}from"./index-5_u7i2dG.js";const _={},c={class:"m-auto text-4xl"};function s(n,a){return o(),e("div",c," 404 Not Found ")}const l=t(_,[["render",s]]);export{l as default};
