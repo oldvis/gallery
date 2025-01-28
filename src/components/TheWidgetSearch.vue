@@ -28,7 +28,6 @@ onKeyStroke('Enter', () => {
       required
     >
     <button
-      type="submit"
       icon-btn
       class="absolute top-0 right-0 h-full pr-1"
       @click="onSearch"
