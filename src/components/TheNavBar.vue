@@ -9,7 +9,7 @@
       src="/favicon.svg"
     >
     <span class="text-lg font-bold">
-      OldVisOnline
+      OldVis Gallery
     </span>
     <div class="flex gap-6 text-sm items-center ml-auto">
       <TheDialogAbout />

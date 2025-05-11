@@ -4,6 +4,8 @@
 
 # OldVis Gallery
 
+![](./public/screenshot.png)
+
 A web-based gallery of old visualizations ([live demo](https://oldvis.github.io/gallery/)).
 
 The gallery uses the dataset from [oldvis_dataset](https://github.com/oldvis/oldvis_dataset).
@@ -22,14 +24,14 @@ If you use this gallery in a scientific publication, we would appreciate citatio
 
 ```
 @Article{Zhang2023OldVisOnline,
-  author        = {Zhang, Yu and Jiang, Ruike and Xie, Liwenhan and Zhao, Yuheng and Liu, Can and Ding, Tianhong and Chen, Siming and Yuan, Xiaoru},
-  title         = {{OldVisOnline}: Curating a Dataset of Historical Visualizations},
-  doi           = {10.1109/TVCG.2023.3326908},
-  volume        = {30},
-  number        = {1},
-  pages         = {551--561},
-  journal       = {IEEE Transactions on Visualization and Computer Graphics},
-  publisher     = {IEEE},
-  year          = {2023},
+  author    = {Zhang, Yu and Jiang, Ruike and Xie, Liwenhan and Zhao, Yuheng and Liu, Can and Ding, Tianhong and Chen, Siming and Yuan, Xiaoru},
+  title     = {{OldVisOnline}: Curating a Dataset of Historical Visualizations},
+  doi       = {10.1109/TVCG.2023.3326908},
+  volume    = {30},
+  number    = {1},
+  pages     = {551--561},
+  journal   = {IEEE Transactions on Visualization and Computer Graphics},
+  publisher = {IEEE},
+  year      = {2023},
 }
 ```
