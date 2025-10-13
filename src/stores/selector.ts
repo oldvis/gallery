@@ -6,6 +6,8 @@ import { isEqual } from 'lodash'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import sift from 'sift'
 import { v4 as uuidv4 } from 'uuid'
+import { parseQueryParams, queriesToSelectors } from '~/composables/queryParams'
+import { DEFAULT_FUSE_OPTIONS } from '~/plugins/fuse'
 
 export enum SelectorType {
   /**
@@ -96,11 +98,7 @@ export const useStore = defineStore('selectors', {
     },
     /** Add a selector matching the pattern with data entries. */
     addSearchSelector(pattern: string): void {
-      const options = {
-        threshold: 0,
-        keys: ['uuid', 'authors', 'displayName', 'publishDate', 'tags'],
-      }
-      this.selectors.push(buildSearchSelector(pattern, options))
+      this.selectors.push(buildSearchSelector(pattern, DEFAULT_FUSE_OPTIONS))
     },
     /**
      * Add/Remove a selector if selector(s)
@@ -120,6 +118,14 @@ export const useStore = defineStore('selectors', {
       const index = this.selectors.findIndex((d) => d.uuid === uuid)
       this.selectors.splice(index, 1)
     },
+    /** Initialize selectors from URL query parameters */
+    initializeFromQuery(queryParams: URLSearchParams): void {
+      const queries = parseQueryParams(queryParams)
+      const newSelectors = queriesToSelectors(queries)
+
+      // Clear existing selectors and add new ones
+      this.selectors = newSelectors
+    },
     /** Apply a selector to the data entries. */
     applySelector,
     /** Apply all the stored selector to the data entries. */
@@ -131,7 +137,6 @@ export const useStore = defineStore('selectors', {
       return kept
     },
   },
-  persist: true,
 })
 
 if (import.meta.hot) {

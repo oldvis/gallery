@@ -10,6 +10,10 @@ A web-based gallery of old visualizations ([live demo](https://oldvis.github.io/
 
 The gallery uses the dataset from [oldvis_dataset](https://github.com/oldvis/oldvis_dataset).
 
+## Features
+
+Supports URL query parameters, such as [`?authors:(Neurath,+Otto)`](https://oldvis.github.io/gallery/?authors:(Neurath,+Otto)) to search for entries whose authors contain `Otto Neurath`.
+
 ## Development Instructions
 
 1. Clone this repository.
