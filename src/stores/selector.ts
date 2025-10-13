@@ -8,9 +8,15 @@ import sift from 'sift'
 import { v4 as uuidv4 } from 'uuid'
 
 export enum SelectorType {
-  /** The type of selectors that follow Mongodb query schema. */
+  /**
+   * The type of selectors that follow Mongodb query schema.
+   * Used for exact matches.
+   */
   Sift = 'Sift',
-  /** The type of selectors that follow Fuse.js options schema. */
+  /**
+   * The type of selectors that follow Fuse.js options schema.
+   * Used for fuzzy search.
+   */
   Fuse = 'Fuse',
 }
 
