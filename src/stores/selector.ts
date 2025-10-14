@@ -6,8 +6,8 @@ import { isEqual } from 'lodash'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import sift from 'sift'
 import { v4 as uuidv4 } from 'uuid'
-import { parseQueryParams, queriesToSelectors } from '~/composables/queryParams'
 import { DEFAULT_FUSE_OPTIONS } from '~/plugins/fuse'
+import { parseQueryParams, queriesToSelectors } from '~/plugins/queryParams'
 
 export enum SelectorType {
   /**

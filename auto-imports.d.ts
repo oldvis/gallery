@@ -74,7 +74,7 @@ declare global {
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
   const parseQueryParams: typeof import('./src/composables/queryParams')['parseQueryParams']
   const parseQueryValue: typeof import('./src/composables/queryParams')['parseQueryValue']
-  const parseRouteQuery: typeof import('./src/composables/queryParams')['parseRouteQuery']
+  const parseRouteQuery: typeof import('./src/plugins/queryParams')['parseRouteQuery']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const provide: typeof import('vue')['provide']
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
@@ -95,9 +95,9 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const selectorsToQueries: typeof import('./src/composables/queryParams')['selectorsToQueries']
+  const selectorsToQueries: typeof import('./src/plugins/queryParams')['selectorsToQueries']
   const selectorsToRouteQuery: typeof import('./src/composables/queryParams')['selectorsToRouteQuery']
-  const serializeQueryParams: typeof import('./src/composables/queryParams')['serializeQueryParams']
+  const serializeQueryParams: typeof import('./src/plugins/queryParams')['serializeQueryParams']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
@@ -390,6 +390,7 @@ declare module 'vue' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly parseQueryParams: UnwrapRef<typeof import('./src/composables/queryParams')['parseQueryParams']>
+    readonly parseQueryValue: UnwrapRef<typeof import('./src/composables/queryParams')['parseQueryValue']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>

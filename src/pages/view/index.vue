@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isEqual } from 'lodash'
 import { storeToRefs } from 'pinia'
-import { selectorsToRouteQuery } from '~/composables/queryParams'
+import { selectorsToRouteQuery } from '~/plugins/queryParams'
 import { useStore } from '~/stores/selector'
 
 const selectorStore = useStore()

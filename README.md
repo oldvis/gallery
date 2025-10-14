@@ -12,7 +12,8 @@ The gallery uses the dataset from [oldvis_dataset](https://github.com/oldvis/old
 
 ## Features
 
-Supports URL query parameters, such as [`?authors:(Neurath,+Otto)`](https://oldvis.github.io/gallery/?authors:(Neurath,+Otto)) to search for entries whose authors contain `Otto Neurath`.
+- Search with freeform text (e.g., `Playfair`) or attribute queries (e.g., `authors:(Playfair, William)`)
+- Embed query parameters in the URL (e.g., [`?authors:(Neurath,+Otto)`](https://oldvis.github.io/gallery/?authors:(Neurath,+Otto)))
 
 ## Development Instructions
 

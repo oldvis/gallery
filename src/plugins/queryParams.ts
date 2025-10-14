@@ -20,7 +20,7 @@ export interface ParsedQuery {
  * @param queryValue - The query parameter value (e.g., "authors:(Playfair, William)")
  * @returns Parsed query object or null if invalid format
  */
-const parseQueryValue = (queryValue: string): ParsedQuery | null => {
+export const parseQueryValue = (queryValue: string): ParsedQuery | null => {
   // Handle search queries (no field prefix)
   if (!queryValue.includes(':')) {
     return {
@@ -62,7 +62,7 @@ const parseQueryValue = (queryValue: string): ParsedQuery | null => {
 export function parseQueryParams(queryParams: URLSearchParams): ParsedQuery[] {
   const queries: ParsedQuery[] = []
 
-  for (const [key, value] of queryParams.entries()) {
+  queryParams.forEach((value, key) => {
     // Check if this is a field:(value) pattern in the key
     if (key.includes(':(') && key.endsWith(')')) {
       const parsed = parseQueryValue(key)
@@ -77,7 +77,7 @@ export function parseQueryParams(queryParams: URLSearchParams): ParsedQuery[] {
         value,
       })
     }
-  }
+  })
 
   return queries
 }
@@ -90,7 +90,7 @@ export function parseQueryParams(queryParams: URLSearchParams): ParsedQuery[] {
 export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
   const selectors: Selector[] = []
 
-  for (const query of queries) {
+  queries.forEach((query) => {
     if (query.field === 'search') {
       // Create Fuse search selector
       selectors.push({
@@ -110,7 +110,7 @@ export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
         uuid: uuidv4(),
       })
     }
-  }
+  })
 
   return selectors
 }
@@ -123,21 +123,21 @@ export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
 export function selectorsToRouteQuery(selectors: Selector[]): Record<string, string | null> {
   const queryParams: Record<string, string | null> = {}
 
-  for (const selector of selectors) {
+  selectors.forEach((selector) => {
     if (selector.type === SelectorType.Sift) {
       const query = selector.query as Record<string, Record<string, unknown>>
-      for (const [field, condition] of Object.entries(query)) {
+      Object.entries(query).forEach(([field, condition]) => {
         if (condition && typeof condition === 'object' && '$eq' in condition) {
           const value = condition.$eq as string
           queryParams[`${field}:(${value})`] = null
         }
-      }
+      })
     }
     else if (selector.type === SelectorType.Fuse) {
       const query = selector.query as { pattern: string, options: any }
       queryParams.search = query.pattern
     }
-  }
+  })
 
   return queryParams
 }
