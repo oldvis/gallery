@@ -11,6 +11,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheDialogAbout: typeof import('./src/components/TheDialogAbout.vue')['default']
+    TheDialogSearchHelp: typeof import('./src/components/TheDialogSearchHelp.vue')['default']
     TheNavBar: typeof import('./src/components/TheNavBar.vue')['default']
     TheViewEntries: typeof import('./src/components/TheViewEntries.vue')['default']
     TheViewListAuthors: typeof import('./src/components/TheViewListAuthors.vue')['default']

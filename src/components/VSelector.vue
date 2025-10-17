@@ -30,6 +30,9 @@ const isRangeSelector = computed(() => {
 const isSearchSelector = computed(() => (
   selector.value.type === SelectorType.Fuse
 ))
+const isImageSelector = computed(() => (
+  selector.value.type === SelectorType.Image
+))
 const text = computed(() => {
   if (isEqualSelector.value) {
     const query = selector.value.query as Selector<SelectorType.Sift>['query']
@@ -49,7 +52,10 @@ const text = computed(() => {
   if (isSearchSelector.value) {
     return `search: '${(selector.value as Selector<SelectorType.Fuse>).query.pattern}'`
   }
-  return ''
+  if (isImageSelector.value) {
+    return `image: '${(selector.value as Selector<SelectorType.Image>).query.query}' (topK=${(selector.value as Selector<SelectorType.Image>).query.topK})`
+  }
+  throw new Error('Invalid selector type')
 })
 </script>
 

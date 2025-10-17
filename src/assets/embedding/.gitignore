@@ -1,0 +1,5 @@
+# images for computing embeddings
+/images
+
+# raw embeddings
+/output/embeddings_raw.jsonl

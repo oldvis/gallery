@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "@deno-library/progress": "jsr:@deno-library/progress@^1.5.1",
+    "@huggingface/transformers": "npm:@huggingface/transformers@^3.7.5",
+    "@kanaries/ml": "npm:@kanaries/ml@^0.0.11"
+  }
+}

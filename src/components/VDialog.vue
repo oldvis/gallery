@@ -4,10 +4,10 @@ const { dialog } = defineProps<{ dialog: boolean }>()
 
 <template>
   <slot name="activator" />
-  <Teleport to="#app">
+  <Teleport to="body">
     <div
       v-if="dialog"
-      class="fixed w-full h-full flex z-1"
+      class="fixed inset-0 w-full h-full flex z-1"
       bg="gray opacity-50"
     >
       <div class="m-auto">

@@ -4,6 +4,7 @@
     "autodocs",
     "chromedark",
     "composables",
+    "huggingface",
     "Iconify",
     "oldvis",
     "persistedstate",

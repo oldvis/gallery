@@ -8,16 +8,21 @@ import { SelectorType } from '~/stores/selector'
  * Examples:
  * - "authors:(Playfair, William)" -> { field: 'authors', value: 'Playfair, William' }
  * - "tags:(interactive)" -> { field: 'tags', value: 'interactive' }
+ * - "image:(bar chart)" -> { field: 'image', value: 'bar chart' }
+ * - "image:(line chart|topk:50)" -> { field: 'image', value: 'line chart', topK: 50 }
  * - "population" -> { field: 'search', value: 'population' }
  */
 export interface ParsedQuery {
   field: string
   value: string
+  topK?: number
 }
+
+const DEFAULT_TOP_K = 50
 
 /**
  * Parse a single query parameter value
- * @param queryValue - The query parameter value (e.g., "authors:(Playfair, William)")
+ * @param queryValue - The query parameter value (e.g., "authors:(Playfair, William)" or "image:(line chart|topk:50)")
  * @returns Parsed query object or null if invalid format
  */
 export const parseQueryValue = (queryValue: string): ParsedQuery | null => {
@@ -47,6 +52,20 @@ export const parseQueryValue = (queryValue: string): ParsedQuery | null => {
   // Extract the value by removing the outer parentheses
   const value = rest.substring(1, rest.length - 1)
 
+  // Check for topK syntax: (description|topk:number) - only valid for image field
+  const topKMatch = value.match(/^(.+)\|topk:(\d+)$/)
+  if (topKMatch && field.trim() === 'image') {
+    const [, description, topKStr] = topKMatch
+    const topK = Number.parseInt(topKStr, 10)
+    if (!Number.isNaN(topK) && topK > 0) {
+      return {
+        field: field.trim(),
+        value: description.trim(),
+        topK,
+      }
+    }
+  }
+
   return {
     field: field.trim(),
     value: value.trim(),
@@ -59,10 +78,10 @@ export const parseQueryValue = (queryValue: string): ParsedQuery | null => {
  * @param queryParams - URL search params object
  * @returns Array of parsed query objects
  */
-export function parseQueryParams(queryParams: URLSearchParams): ParsedQuery[] {
+export const parseQueryParams = (queryParams: URLSearchParams): ParsedQuery[] => {
   const queries: ParsedQuery[] = []
 
-  queryParams.forEach((value, key) => {
+  queryParams.forEach((value: string, key: string) => {
     // Check if this is a field:(value) pattern in the key
     if (key.includes(':(') && key.endsWith(')')) {
       const parsed = parseQueryValue(key)
@@ -87,7 +106,7 @@ export function parseQueryParams(queryParams: URLSearchParams): ParsedQuery[] {
  * @param queries - Array of parsed query objects
  * @returns Array of selector objects
  */
-export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
+export const queriesToSelectors = (queries: ParsedQuery[]): Selector[] => {
   const selectors: Selector[] = []
 
   queries.forEach((query) => {
@@ -98,6 +117,17 @@ export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
         query: {
           pattern: query.value,
           options: DEFAULT_FUSE_OPTIONS,
+        },
+        uuid: uuidv4(),
+      })
+    }
+    else if (query.field === 'image') {
+      // Create Image search selector
+      selectors.push({
+        type: SelectorType.Image,
+        query: {
+          query: query.value,
+          topK: query.topK ?? DEFAULT_TOP_K,
         },
         uuid: uuidv4(),
       })
@@ -120,7 +150,7 @@ export function queriesToSelectors(queries: ParsedQuery[]): Selector[] {
  * @param selectors - Array of selector objects
  * @returns Object with query parameters for Vue Router
  */
-export function selectorsToRouteQuery(selectors: Selector[]): Record<string, string | null> {
+export const selectorsToRouteQuery = (selectors: Selector[]): Record<string, string | null> => {
   const queryParams: Record<string, string | null> = {}
 
   selectors.forEach((selector) => {
@@ -136,6 +166,11 @@ export function selectorsToRouteQuery(selectors: Selector[]): Record<string, str
     else if (selector.type === SelectorType.Fuse) {
       const query = selector.query as { pattern: string, options: any }
       queryParams.search = query.pattern
+    }
+    else if (selector.type === SelectorType.Image) {
+      const query = selector.query as { query: string, topK: number }
+      const topKParam = query.topK !== DEFAULT_TOP_K ? `|topk:${query.topK}` : ''
+      queryParams[`image:(${query.query}${topKParam})`] = null
     }
   })
 

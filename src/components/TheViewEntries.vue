@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Visualization } from '~/plugins/visualization'
 import { storeToRefs } from 'pinia'
 import { useStore as useSelectorStore } from '~/stores/selector'
 import { useStore as useVisStore } from '~/stores/visualization'
@@ -13,10 +14,26 @@ const showMore = (n: number): void => {
 
 const selectorStore = useSelectorStore()
 const { selectors } = storeToRefs(selectorStore)
+
 /** The visualizations that match the selectors. */
-const matched = computed(() => (
-  selectorStore.applySelectors(visualizations.value)
-))
+const matched = ref<Visualization[]>([])
+const isLoading = ref(false)
+
+/** Update matched results when selectors or visualizations change */
+watch([selectors, visualizations], async () => {
+  isLoading.value = true
+  try {
+    matched.value = await selectorStore.applySelectors(visualizations.value)
+  }
+  catch (error) {
+    console.error('Error applying selectors:', error)
+    matched.value = []
+  }
+  finally {
+    isLoading.value = false
+  }
+}, { immediate: true, deep: true })
+
 /** The visualizations that should be shown. */
 const shown = computed(() => (
   matched.value.filter((_, i) => i < showFirst.value)
@@ -48,7 +65,13 @@ const shown = computed(() => (
       </div>
     </div>
     <div
-      v-if="shown.length !== 0"
+      v-if="isLoading"
+      class="m-auto text-xl"
+    >
+      Searching...
+    </div>
+    <div
+      v-else-if="shown.length !== 0"
       class="overflow-auto"
     >
       <VDataEntry

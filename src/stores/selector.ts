@@ -6,20 +6,26 @@ import { isEqual } from 'lodash'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import sift from 'sift'
 import { v4 as uuidv4 } from 'uuid'
+import { useSearchByText } from '~/composables/imageSearch'
 import { DEFAULT_FUSE_OPTIONS } from '~/plugins/fuse'
 import { parseQueryParams, queriesToSelectors } from '~/plugins/queryParams'
 
 export enum SelectorType {
   /**
    * The type of selectors that follow Mongodb query schema.
-   * Used for exact matches.
+   * Used for metadata exact matches.
    */
   Sift = 'Sift',
   /**
    * The type of selectors that follow Fuse.js options schema.
-   * Used for fuzzy search.
+   * Used for metadata search.
    */
   Fuse = 'Fuse',
+  /**
+   * The type of selectors for image semantic search.
+   * Used for finding similar visualizations.
+   */
+  Image = 'Image',
 }
 
 export interface Selector<Type extends SelectorType = SelectorType> {
@@ -33,7 +39,12 @@ export interface Selector<Type extends SelectorType = SelectorType> {
             pattern: string
             options: IFuseOptions<Visualization>
           }
-        : null)
+        : Type extends SelectorType.Image
+          ? {
+              query: string
+              topK: number
+            }
+          : null)
   /** The uuid of the selector. */
   uuid: string
 }
@@ -66,21 +77,72 @@ const buildSearchSelector = (
   uuid: uuidv4(),
 })
 
+const buildImageSelector = (
+  query: string,
+  topK: number = 20,
+): Selector<SelectorType.Image> => ({
+  type: SelectorType.Image,
+  query: { query, topK },
+  uuid: uuidv4(),
+})
+
+/** Apply a Sift selector (metadata exact match). */
+const applySiftSelector = (
+  data: Visualization[],
+  selector: Selector<SelectorType.Sift>,
+): Visualization[] => {
+  return data.filter(sift(selector.query))
+}
+
+/** Apply a Fuse selector (metadata search). */
+const applyFuseSelector = (
+  data: Visualization[],
+  selector: Selector<SelectorType.Fuse>,
+): Visualization[] => {
+  const fuse = new Fuse(data, selector.query.options)
+  return fuse.search(selector.query.pattern).map((d) => d.item)
+}
+
+/** Apply an Image selector (image semantic search). */
+const applyImageSelector = async (
+  data: Visualization[],
+  selector: Selector<SelectorType.Image>,
+): Promise<Visualization[]> => {
+  const { searchByText } = useSearchByText()
+
+  const getFilenameStem = (filename: string): string => (
+    filename.split('.').slice(0, -1).join('.') || filename
+  )
+
+  try {
+    const results = await searchByText(selector.query.query, selector.query.topK)
+    const orderedUuids = results.map((r) => getFilenameStem(r.filename))
+    const uuidToVisualization = new Map(data.map((v) => [v.uuid, v]))
+    return orderedUuids
+      .map((uuid) => uuidToVisualization.get(uuid))
+      .filter((v): v is Visualization => v !== undefined)
+  }
+  catch (error) {
+    console.error('Image search failed:', error)
+    return []
+  }
+}
+
 /** Apply a selector to the data entries. */
-const applySelector = (
+const applySelector = async (
   data: Visualization[],
   selector: Selector,
-): Visualization[] => {
-  if (selector.type === SelectorType.Sift) {
-    const { query } = selector as Selector<SelectorType.Sift>
-    return data.filter(sift(query))
+): Promise<Visualization[]> => {
+  switch (selector.type) {
+    case SelectorType.Sift:
+      return applySiftSelector(data, selector as Selector<SelectorType.Sift>)
+    case SelectorType.Fuse:
+      return applyFuseSelector(data, selector as Selector<SelectorType.Fuse>)
+    case SelectorType.Image:
+      return applyImageSelector(data, selector as Selector<SelectorType.Image>)
+    default:
+      return []
   }
-  if (selector.type === SelectorType.Fuse) {
-    const { query } = selector as Selector<SelectorType.Fuse>
-    const fuse = new Fuse(data, query.options)
-    return fuse.search(query.pattern).map((d) => d.item)
-  }
-  return []
 }
 
 export const useStore = defineStore('selectors', {
@@ -99,6 +161,10 @@ export const useStore = defineStore('selectors', {
     /** Add a selector matching the pattern with data entries. */
     addSearchSelector(pattern: string): void {
       this.selectors.push(buildSearchSelector(pattern, DEFAULT_FUSE_OPTIONS))
+    },
+    /** Add an image search selector. */
+    addImageSelector(query: string, topK: number = 20): void {
+      this.selectors.push(buildImageSelector(query, topK))
     },
     /**
      * Add/Remove a selector if selector(s)
@@ -129,11 +195,11 @@ export const useStore = defineStore('selectors', {
     /** Apply a selector to the data entries. */
     applySelector,
     /** Apply all the stored selector to the data entries. */
-    applySelectors(data: Visualization[]): Visualization[] {
+    async applySelectors(data: Visualization[]): Promise<Visualization[]> {
       let kept = data
-      this.selectors.forEach((d) => {
-        kept = this.applySelector(kept, d)
-      })
+      for (const selector of this.selectors) {
+        kept = await this.applySelector(kept, selector)
+      }
       return kept
     },
   },

@@ -34,6 +34,8 @@ const { removeSelector } = store
       </template>
     </div>
     <div class="grow" />
-    <TheWidgetSearch m="r-1" class="shrink-0" />
+    <TheWidgetSearch class="shrink-0" />
+    <TheDialogSearchHelp />
+    <div class="pr-1" />
   </div>
 </template>
