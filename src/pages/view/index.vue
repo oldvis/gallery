@@ -41,9 +41,12 @@ watch(selectors, () => {
 
 <template>
   <TheViewSelectors m="x-1 t-1" />
-  <div class="m-1 gap-1 overflow-auto flex">
+  <div
+    class="m-1 gap-1 overflow-auto"
+    flex="~ col sm:row"
+  >
     <div
-      class="gap-1 flex-1"
+      class="gap-1 flex-1 min-h-50"
       display="none sm:flex"
       flex="~ col"
     >
