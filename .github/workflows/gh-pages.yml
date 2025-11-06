@@ -15,6 +15,7 @@ jobs:
         env:
           # https://stackoverflow.com/questions/38558989/node-js-heap-out-of-memory/66914674#66914674
           NODE_OPTIONS: --max_old_space_size=4096
+          VITE_GA_ID: ${{ secrets.VITE_GA_ID }}
         run: |
           npm install -g pnpm
           pnpm install
