@@ -4,7 +4,7 @@
 
 # OldVis Gallery
 
-![](./public/screenshot.png)
+![interface screenshot](./public/screenshot.png)
 
 A web-based gallery of historical visualizations ([live demo](https://oldvis.github.io/gallery/)).
 

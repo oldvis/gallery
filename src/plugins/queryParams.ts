@@ -19,6 +19,7 @@ export interface ParsedQuery {
 }
 
 const DEFAULT_TOP_K = 50
+const TOP_K_SYNTAX_REGEX = /^(.+)\|topk:(\d+)$/
 
 /**
  * Parse a single query parameter value
@@ -53,7 +54,7 @@ export const parseQueryValue = (queryValue: string): ParsedQuery | null => {
   const value = rest.substring(1, rest.length - 1)
 
   // Check for topK syntax: (description|topk:number) - only valid for image field
-  const topKMatch = value.match(/^(.+)\|topk:(\d+)$/)
+  const topKMatch = value.match(TOP_K_SYNTAX_REGEX)
   if (topKMatch && field.trim() === 'image') {
     const [, description, topKStr] = topKMatch
     const topK = Number.parseInt(topKStr, 10)
