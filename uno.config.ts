@@ -2,7 +2,7 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetUno,
+  presetWind3,
   presetWebFonts,
 } from 'unocss'
 
@@ -18,7 +18,7 @@ export default defineConfig({
     ['input-area', 'px-1 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded'],
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
