@@ -1,0 +1,1 @@
+import{l as e,w as t}from"./runtime-core.esm-bundler-C-4tJUEF.js";import{t as n}from"./_plugin-vue_export-helper-B80Cc4Ui.js";var r={},i={class:`m-auto text-4xl`};function a(n,r){return t(),e(`div`,i,` 404 Not Found `)}var o=n(r,[[`render`,a]]);export{o as default};
