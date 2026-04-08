@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { storeToRefs } from 'pinia'
 import { selectorsToRouteQuery } from '~/plugins/queryParams'
 import { useStore } from '~/stores/selector'
