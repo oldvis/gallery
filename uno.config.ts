@@ -2,8 +2,8 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetWind3,
   presetWebFonts,
+  presetWind3,
 } from 'unocss'
 
 export default defineConfig({
