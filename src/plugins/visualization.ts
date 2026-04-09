@@ -1,13 +1,6 @@
 import { iso6393 } from 'iso-639-3'
 import { groupBy } from 'lodash'
-import rawVisualizations from '~/assets/visualizations.json'
-
-// Sort the visualizations by number of entries in the data source.
-const rawVisualizationsSorted = Object
-  .entries(groupBy(rawVisualizations as RawVisualization[], 'source.name'))
-  .sort((a, b) => (b[1].length - a[1].length))
-  .map((d) => d[1])
-  .flat()
+import rawVisualizationsUrl from '~/assets/visualizations.json?url'
 
 interface TimePoint {
   year: number
@@ -72,8 +65,20 @@ const getLanguageFullNames = (languages: string[]): string[] => (
   }).filter((d) => d !== undefined) as string[] ?? []
 )
 
-export const visualizations: Visualization[] = rawVisualizationsSorted.map((d) => ({
-  ...d,
-  publishDate: getPublishYear(d.publishDate),
-  languages: getLanguageFullNames(d.languages),
-}))
+export const loadVisualizations = async (): Promise<Visualization[]> => {
+  const rawVisualizations = await fetch(rawVisualizationsUrl)
+    .then((response) => response.json() as Promise<RawVisualization[]>)
+
+  // Sort the visualizations by number of entries in the data source.
+  const rawVisualizationsSorted = Object
+    .entries(groupBy(rawVisualizations, 'source.name'))
+    .sort((a, b) => (b[1].length - a[1].length))
+    .map((d) => d[1])
+    .flat()
+
+  return rawVisualizationsSorted.map((d) => ({
+    ...d,
+    publishDate: getPublishYear(d.publishDate),
+    languages: getLanguageFullNames(d.languages),
+  }))
+}

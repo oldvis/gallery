@@ -3,10 +3,14 @@ import isEqual from 'lodash/isEqual'
 import { storeToRefs } from 'pinia'
 import { selectorsToRouteQuery } from '~/plugins/queryParams'
 import { useStore } from '~/stores/selector'
+import { useStore as useVisualizationStore } from '~/stores/visualization'
 
 const selectorStore = useStore()
 const { selectors } = storeToRefs(selectorStore)
 const { initializeFromQuery } = selectorStore
+
+const visualizationStore = useVisualizationStore()
+const { initialized, isLoading } = storeToRefs(visualizationStore)
 
 const route = useRoute()
 const router = useRouter()
@@ -40,27 +44,35 @@ watch(selectors, () => {
 </script>
 
 <template>
-  <TheViewSelectors m="x-1 t-1" />
   <div
-    class="m-1 gap-1 overflow-auto"
-    flex="~ col sm:row"
+    v-if="isLoading || !initialized"
+    class="m-auto text-xl"
   >
-    <div
-      class="gap-1 flex-1 min-h-50"
-      display="none sm:flex"
-      flex="~ col"
-    >
-      <TheViewTime class="basis-1/4" />
-      <div
-        class="col-span-2 overflow-auto basis-3/4 gap-1"
-        grid="~ cols-2"
-      >
-        <TheViewListTags />
-        <TheViewListAuthors />
-        <TheViewListLanguages />
-        <TheViewListSources />
-      </div>
-    </div>
-    <TheViewEntries class="flex-1" />
+    Loading
   </div>
+  <template v-else>
+    <TheViewSelectors m="x-1 t-1" />
+    <div
+      class="m-1 gap-1 overflow-auto"
+      flex="~ col sm:row"
+    >
+      <div
+        class="gap-1 flex-1 min-h-50"
+        display="none sm:flex"
+        flex="~ col"
+      >
+        <TheViewTime class="basis-1/4" />
+        <div
+          class="col-span-2 overflow-auto basis-3/4 gap-1"
+          grid="~ cols-2"
+        >
+          <TheViewListTags />
+          <TheViewListAuthors />
+          <TheViewListLanguages />
+          <TheViewListSources />
+        </div>
+      </div>
+      <TheViewEntries class="flex-1" />
+    </div>
+  </template>
 </template>

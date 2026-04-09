@@ -5,6 +5,7 @@ import { createApp } from 'vue'
 import { configure } from 'vue-gtag'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
+import { useStore as useVisualizationStore } from './stores/visualization'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
@@ -16,10 +17,13 @@ configure({
 })
 
 const app = createApp(App)
+const pinia = createPinia().use(piniaPluginPersistedstate)
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 app.use(router)
-app.use(createPinia().use(piniaPluginPersistedstate))
+app.use(pinia)
 app.mount('#app')
+
+useVisualizationStore(pinia).initialize()

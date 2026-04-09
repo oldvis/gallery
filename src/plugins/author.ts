@@ -1,4 +1,4 @@
-import rawAuthors from '~/assets/authors.json'
+import rawAuthorsUrl from '~/assets/authors.json?url'
 
 interface TimePoint {
   year: number
@@ -19,6 +19,11 @@ export interface Author {
   name: string
 }
 
-export const authors: Author[] = (rawAuthors as RawAuthor[]).map((d) => ({
-  name: d.name,
-}))
+export const loadAuthors = async (): Promise<Author[]> => {
+  const rawAuthors = await fetch(rawAuthorsUrl)
+    .then((response) => response.json() as Promise<RawAuthor[]>)
+
+  return rawAuthors.map((d) => ({
+    name: d.name,
+  }))
+}
