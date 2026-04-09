@@ -23,8 +23,12 @@ jobs:
           pnpm run build
 
       - name: Create 404 Page
+        run: cp dist/index.html dist/404.html
+
+      - name: Disable Jekyll Processing
         run: |
-          cp dist/index.html dist/404.html
+          # Required for GitHub Pages: disables Jekyll filtering so files
+          # starting with '_' (for example Vite helper chunks) are served.
           touch dist/.nojekyll
 
       - name: Deploy 🚀
