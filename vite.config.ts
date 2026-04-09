@@ -10,8 +10,9 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import Pages from 'vite-plugin-pages'
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/gallery/' : '/',
+export default defineConfig(({ mode }) => ({
+  // Allow explicit override in CI, fallback to GitHub Pages repo base in production.
+  base: process.env.VITE_BASE_URL ?? (mode === 'production' ? '/gallery/' : '/'),
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
@@ -62,4 +63,4 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
   },
-})
+}))
