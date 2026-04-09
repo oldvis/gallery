@@ -1,9 +1,9 @@
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import routes from 'virtual:generated-pages'
 import { createApp } from 'vue'
 import { configure } from 'vue-gtag'
 import { createRouter, createWebHistory } from 'vue-router'
+import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 import { useStore as useVisualizationStore } from './stores/visualization'
 

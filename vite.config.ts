@@ -7,8 +7,9 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
-import Pages from 'vite-plugin-pages'
 import { defineConfig } from 'vitest/config'
+import { VueRouterAutoImports } from 'vue-router/unplugin'
+import VueRouter from 'vue-router/vite'
 
 export default defineConfig(({ mode }) => ({
   // Allow explicit override in CI, fallback to GitHub Pages repo base in production.
@@ -19,6 +20,11 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
+    // https://github.com/vuejs/router/pull/2603
+    VueRouter({
+      dts: 'src/typed-router.d.ts',
+    }),
+
     VueMacros({
       defineOptions: false,
       defineModels: false,
@@ -32,15 +38,16 @@ export default defineConfig(({ mode }) => ({
       },
     }),
 
-    // https://github.com/hannoeru/vite-plugin-pages
-    Pages(),
-
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: [
         'vue',
-        'vue-router',
         '@vueuse/core',
+        VueRouterAutoImports,
+        {
+          // add any other imports you were relying on
+          'vue-router/auto': ['useLink'],
+        },
       ],
       dts: true,
       dirs: [
