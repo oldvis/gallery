@@ -23,7 +23,9 @@ jobs:
           pnpm run build
 
       - name: Create 404 Page
-        run: cp dist/index.html dist/404.html
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
