@@ -1,1 +1,0 @@
-import{p as e,s as t,w as n}from"./runtime-core.esm-bundler-DJy0lzJC.js";import{t as r}from"./view-Dl2ltMCa.js";var i=e({__name:`index`,setup(e){return(e,i)=>(n(),t(r))}});export{i as default};
