@@ -46,9 +46,10 @@ watch(selectors, () => {
 <template>
   <div
     v-if="isLoading || !initialized"
-    class="m-auto text-xl"
+    class="m-auto text-xl flex gap-2"
   >
     Loading
+    <div i-fa6-solid:spinner animate-spin />
   </div>
   <template v-else>
     <TheViewSelectors m="x-1 t-1" />
