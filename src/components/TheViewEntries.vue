@@ -41,7 +41,10 @@ const shown = computed(() => (
 </script>
 
 <template>
-  <div view-container>
+  <div
+    view-container
+    data-testid="gallery-entries"
+  >
     <div view-header>
       <div class="i-fa6-solid:table m-auto" />
       <div class="font-bold">
@@ -53,13 +56,19 @@ const shown = computed(() => (
         class="flex pr-4"
       >
         #matched:&nbsp;
-        <div class="font-bold">
+        <div
+          class="font-bold"
+          data-testid="matched-count"
+        >
           {{ matched.length }}
         </div>
       </div>
       <div class="flex">
         #entries:&nbsp;
-        <div class="font-bold">
+        <div
+          class="font-bold"
+          data-testid="entries-count"
+        >
           {{ visualizations.length }}
         </div>
       </div>

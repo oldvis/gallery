@@ -41,7 +41,7 @@ jobs:
         run: pnpm run build
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run test:unit
 
       - name: Lint
         env:
@@ -50,3 +50,11 @@ jobs:
 
       - name: TypeCheck
         run: pnpm run typecheck
+
+      - name: Install Playwright Chromium
+        if: runner.os == 'Linux'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E
+        if: runner.os == 'Linux'
+        run: pnpm run test:e2e

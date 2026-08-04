@@ -93,7 +93,7 @@ export const useSearchByText = () => {
       await initialize()
     }
 
-    const textInputs = tokenizer(textQuery, { padding: true, truncation: true, return_tensors: 'pt' })
+    const textInputs = tokenizer(textQuery, { padding: true, truncation: true })
     const textFeatures = await textModel(textInputs)
     const textEmbeds: Tensor = textFeatures.text_embeds
     const queryEmbedding: number[] = textEmbeds.view(-1).normalize(2, -1).tolist()

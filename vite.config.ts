@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
   base: process.env.VITE_BASE_URL ?? (mode === 'production' ? '/gallery/' : '/'),
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
+      '~/': `${path.resolve(import.meta.dirname, 'src')}/`,
     },
   },
   plugins: [
@@ -69,5 +69,11 @@ export default defineConfig(({ mode }) => ({
   // https://github.com/vitest-dev/vitest
   test: {
     environment: 'jsdom',
+    setupFiles: ['./test/setup.ts'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**',
+    ],
   },
 }))
