@@ -183,7 +183,7 @@ const showNext = (): void => {
       v-else
       class="m-auto text-sm text-gray-500 p-3"
     >
-      No Entries Matched
+      No entries matched
     </div>
   </div>
 </template>

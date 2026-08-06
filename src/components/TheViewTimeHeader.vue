@@ -32,7 +32,7 @@ const { toggleEqualSelector } = useSelectorStore()
     </div>
     <div class="strip-meta flex ml-auto flex-wrap gap-x-1.5 gap-y-1 items-center">
       <label class="flex gap-1 items-center">
-        <span>Bin Size</span>
+        <span>Bin size</span>
         <input
           v-model="binStep"
           input-area
@@ -49,7 +49,7 @@ const { toggleEqualSelector } = useSelectorStore()
         aria-hidden="true"
       >·</span>
       <span>
-        Year Range
+        Year range
         <span strip-meta-em>[{{ minYear }}, {{ maxYear }}]</span>
       </span>
       <template v-if="nNull !== 0">

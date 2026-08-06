@@ -148,22 +148,22 @@ const imageErrorLead = computed((): string | null => {
         flex="~ col"
       >
         <div>
-          <b>author</b>: {{ datum.authors?.join(' / ') ?? 'unknown' }}
+          <b>Author</b>: {{ datum.authors?.join(' / ') ?? 'unknown' }}
         </div>
         <div>
-          <b>year</b>: {{ datum.publishDate ?? 'unknown' }}
+          <b>Year</b>: {{ datum.publishDate ?? 'unknown' }}
         </div>
         <div>
-          <b>source</b>: {{ datum.source?.name ?? 'unknown' }}
+          <b>Source</b>: {{ datum.source?.name ?? 'unknown' }}
         </div>
         <div>
-          <b>language</b>: {{ datum.languages?.join(', ') ?? 'unknown' }}
+          <b>Language</b>: {{ datum.languages?.join(', ') ?? 'unknown' }}
         </div>
         <div v-if="datum.tags !== undefined && datum.tags.length !== 0">
-          <b>tags</b>: {{ datum.tags?.join(', ') }}
+          <b>Tags</b>: {{ datum.tags?.join(', ') }}
         </div>
         <div v-if="datum.abstract !== undefined && datum.abstract !== null">
-          <b>abstract</b>: {{ datum.abstract }}
+          <b>Abstract</b>: {{ datum.abstract }}
         </div>
         <div class="flex gap-1">
           <button
@@ -173,7 +173,7 @@ const imageErrorLead = computed((): string | null => {
           >
             <div class="i-fa6-solid:database my-auto" />
             <div class="my-auto">
-              view metadata
+              View metadata
             </div>
           </button>
           <button
@@ -183,7 +183,7 @@ const imageErrorLead = computed((): string | null => {
           >
             <div class="i-fa6-solid:copy my-auto" />
             <div class="my-auto">
-              copy metadata
+              Copy metadata
             </div>
           </button>
           <a
@@ -193,7 +193,7 @@ const imageErrorLead = computed((): string | null => {
           >
             <button class="icon-btn flex gap-1">
               <div class="i-fa6-solid:globe my-auto" />
-              <div class="my-auto">url</div>
+              <div class="my-auto">URL</div>
             </button>
           </a>
           <a
@@ -203,7 +203,7 @@ const imageErrorLead = computed((): string | null => {
           >
             <button class="icon-btn flex gap-1">
               <div class="i-fa6-brands:google my-auto" />
-              <div class="my-auto">google</div>
+              <div class="my-auto">Google</div>
             </button>
           </a>
         </div>

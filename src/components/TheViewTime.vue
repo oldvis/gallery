@@ -41,7 +41,7 @@ const { toggleRangeSelector } = useSelectorStore()
         v-else
         class="text-red m-auto"
       >
-        Invalid Bin Size
+        Invalid bin size
       </div>
     </div>
   </div>

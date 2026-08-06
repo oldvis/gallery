@@ -55,3 +55,41 @@ describe('vDataEntry image fallback', () => {
     expect(wrapper.find('img').exists()).toBe(false)
   })
 })
+
+describe('vDataEntry chrome capitalization', () => {
+  it('uses sentence-case field labels, actions, and conventional acronyms', () => {
+    const wrapper = mountEntry(makeVisualization({
+      uuid: 'v1',
+      authors: null,
+      publishDate: null,
+      languages: [],
+      tags: ['Manuscript'],
+      abstract: 'Some abstract.',
+      source: {
+        name: undefined as unknown as string,
+        url: 'https://example.com',
+        accessDate: '2024-01-01',
+      },
+      viewUrl: 'https://example.com/view',
+      downloadUrl: 'https://example.com/img.png',
+    }))
+
+    const text = wrapper.text()
+    expect(text).toContain('Author')
+    expect(text).toContain('Year')
+    expect(text).toContain('Source')
+    expect(text).toContain('Language')
+    expect(text).toContain('Tags')
+    expect(text).toContain('Abstract')
+    expect(text).toMatch(/Author\s*:\s*unknown/)
+    expect(text).toMatch(/Year\s*:\s*unknown/)
+    expect(text).toContain('View metadata')
+    expect(text).toContain('Copy metadata')
+    expect(text).toContain('URL')
+    expect(text).toContain('Google')
+    expect(text).not.toContain('view metadata')
+    expect(text).not.toContain('copy metadata')
+    expect(text).not.toMatch(/\burl\b/)
+    expect(text).not.toMatch(/\bgoogle\b/)
+  })
+})

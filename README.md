@@ -18,13 +18,11 @@ A web gallery of historical visualizations. Browse the [oldvis_dataset](https://
 - **Advanced filters**: build Field / Keyword / Image / Year criteria in a dialog without hand-writing syntax
 - **Shareable URLs**: selectors sync to the query string so filtered views can be linked
 
-See [docs/SEARCH_FEATURES.md](./docs/SEARCH_FEATURES.md) for search syntax details.
-
 ## See It In Action
 
 Selectors, temporal chart, facets, and entries sit in one screen.
 
-![OldVis Gallery](./docs/screenshot.png)
+![OldVis Gallery](./docs/images/screenshot.png)
 
 ## Start Using It
 
@@ -41,38 +39,45 @@ pnpm install
 pnpm dev
 ```
 
-## How Browsing Works
+## Search Features
 
-1. Open the app (the visualization catalog loads automatically).
-2. Use facets, the year histogram, or **Search…** to narrow results.
-3. Optionally open **Advanced** to add field, keyword, image, or year filters as chips.
-4. Page through matched entries with **Previous** / **Next**.
-5. Share the URL — active filters are reflected in the query string.
+To find visualizations, use any of these controls in the UI:
 
-Example shared links:
+- **Search…** — type keywords, or paste a field / image query
+- **Advanced** — add field, keyword, image, or year filters as form rows (no syntax required)
+- **Facets & year histogram** — click an author, tag, language, source, or year bin
 
-- [`?search=Playfair`](https://oldvis.github.io/gallery/?search=Playfair)
-- [`?authors:(Playfair,+William)`](https://oldvis.github.io/gallery/?authors:(Playfair,+William))
-- [`?image:(bar+chart)`](https://oldvis.github.io/gallery/?image:(bar+chart))
+Active filters appear as chips under Selectors and are embedded in the page URL for sharing (e.g. [`https://oldvis.github.io/gallery/?authors:(Neurath,+Otto)`](https://oldvis.github.io/gallery/?authors:(Neurath,+Otto))).
+
+Useful query examples (type them in **Search…**, or open the link):
+
+| Kind | Example | Result |
+| --- | --- | --- |
+| Keywords | [`Playfair`](https://oldvis.github.io/gallery/?search=Playfair) | Matches titles, abstracts, authors, tags, and related metadata |
+| Exact field | [`authors:(Playfair, William)`](https://oldvis.github.io/gallery/?authors:(Playfair,+William)) | Keeps entries whose `authors` field is exactly that value |
+| Image description | [`image:(bar chart)`](https://oldvis.github.io/gallery/?image:(bar+chart)) | CLIP semantic search over the pictures (`\|topk:<N>` optional) |
+
+Combine several filters with `&`, or add multiple rows in **Advanced** and Apply. Full syntax and supported fields: [docs/SEARCH_FEATURES.md](./docs/SEARCH_FEATURES.md).
 
 ## For Developers
 
-| Command          | Description                                   |
-| ---------------- | --------------------------------------------- |
-| `pnpm install`   | Install dependencies                          |
-| `pnpm dev`       | Start the local app (`http://localhost:3333`) |
-| `pnpm build`     | Build for production (GitHub Pages `base`)    |
-| `pnpm lint`      | Run ESLint                                    |
-| `pnpm typecheck` | Check TypeScript types                        |
-| `pnpm test`      | Run unit tests (watch)                        |
-| `pnpm test:unit` | Run unit tests once                           |
-| `pnpm test:e2e`  | Run end-to-end tests                          |
+| Command                | Description                                         |
+| ---------------------- | --------------------------------------------------- |
+| `pnpm install`         | Install dependencies                                |
+| `pnpm dev`             | Start the local app (`http://localhost:3333`)       |
+| `pnpm build`           | Build for production (GitHub Pages `base`)          |
+| `pnpm lint`            | Run ESLint                                          |
+| `pnpm typecheck`       | Check TypeScript types                              |
+| `pnpm test`            | Run unit tests (watch)                              |
+| `pnpm test:unit`       | Run unit tests once                                 |
+| `pnpm test:e2e`        | Run end-to-end tests                                |
+| `pnpm docs:screenshot` | Update `docs/images/screenshot.png` for this README |
 
 You will need:
 
 - [Node.js](https://nodejs.org)
 - [pnpm](https://pnpm.io/)
-- Playwright browsers for e2e (`pnpm exec playwright install` if needed)
+- Playwright browsers for e2e / screenshots (`pnpm exec playwright install` if needed)
 
 Dataset JSON lives under `src/assets/` (for example `visualizations.json`). Shared UI language is documented in [DESIGN.md](./DESIGN.md).
 

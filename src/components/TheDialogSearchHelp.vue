@@ -11,7 +11,7 @@ const fieldList = QUERY_FIELDS.join(', ')
       <button
         type="button"
         icon-btn
-        title="Search Help"
+        title="Search help"
         @click="dialog = !dialog"
       >
         <div class="i-fa6-solid:circle-question" />
@@ -29,7 +29,7 @@ const fieldList = QUERY_FIELDS.join(', ')
             id="search-help-title"
             strip-label
           >
-            Search Help
+            Search help
           </div>
           <button
             type="button"
@@ -47,7 +47,7 @@ const fieldList = QUERY_FIELDS.join(', ')
         >
           <div>
             <h3 class="font-semibold mb-2">
-              Freeform Search
+              Freeform search
             </h3>
             <p class="mb-2">
               Search across multiple metadata fields.
@@ -64,7 +64,7 @@ const fieldList = QUERY_FIELDS.join(', ')
 
           <div class="pt-3">
             <h3 class="font-semibold mb-2">
-              Field-Specific Search
+              Field-specific search
             </h3>
             <p class="mb-2">
               Search specific metadata fields using the format <code>{{ '<field>:(<value>)' }}</code>.
@@ -114,7 +114,7 @@ const fieldList = QUERY_FIELDS.join(', ')
 
           <div class="pt-3">
             <h3 class="font-semibold mb-2">
-              Image Semantic Search
+              Image semantic search
             </h3>
             <p class="mb-2">
               Search for visualizations by describing image content using the format <code>{{ 'image:(<description>)' }}</code> or <code>{{ 'image:(<description>|topk:<N>)' }}</code>.
@@ -147,7 +147,7 @@ const fieldList = QUERY_FIELDS.join(', ')
 
           <div class="pt-3">
             <h3 class="font-semibold mb-2">
-              Multi-Criteria Queries
+              Multi-criteria queries
             </h3>
             <p class="mb-2">
               Combine multiple search criteria using <code>"&"</code>. Results must match all criteria (AND operation).
