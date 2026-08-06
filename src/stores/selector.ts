@@ -58,13 +58,13 @@ const buildEqualSelector = (
   uuid: uuidv4(),
 })
 
-/** Build a range selector selecting value in [range[0], range[1]). */
+/** Build a range selector selecting value in (range[0], range[1]]. */
 const buildRangeSelector = (
   field: string,
   range: [unknown, unknown],
 ): Selector<SelectorType.Sift> => ({
   type: SelectorType.Sift,
-  query: { [field]: { $gte: range[0], $lt: range[1] } },
+  query: { [field]: { $gt: range[0], $lte: range[1] } },
   uuid: uuidv4(),
 })
 
@@ -154,7 +154,7 @@ export const useStore = defineStore('selectors', {
     toggleEqualSelector(field: string, value: unknown): void {
       this.toggleSelector(buildEqualSelector(field, value))
     },
-    /** Add/Remove a selector checking datum[field] in closed range [left, right]. */
+    /** Add/Remove a selector checking datum[field] in (left, right]. */
     toggleRangeSelector(field: string, range: [unknown, unknown]): void {
       this.toggleSelector(buildRangeSelector(field, range))
     },

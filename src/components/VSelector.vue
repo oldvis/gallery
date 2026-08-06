@@ -24,8 +24,8 @@ const isRangeSelector = computed(() => {
   if (selector.value.type !== SelectorType.Sift) return false
   const { query } = selector.value as Selector<SelectorType.Sift>
   return (Object.values(query).length === 1)
-    && ('$gte' in Object.values(query)[0])
-    && ('$lt' in Object.values(query)[0])
+    && ('$gt' in Object.values(query)[0])
+    && ('$lte' in Object.values(query)[0])
 })
 const isSearchSelector = computed(() => (
   selector.value.type === SelectorType.Fuse
@@ -36,18 +36,11 @@ const isImageSelector = computed(() => (
 const text = computed(() => {
   if (isEqualSelector.value) {
     const query = selector.value.query as Selector<SelectorType.Sift>['query']
-    return `
-      '${(Object.values(query)[0]).$eq}'
-      ∈ ${Object.keys(query)[0]}
-    `
+    return `'${(Object.values(query)[0]).$eq}' ∈ ${Object.keys(query)[0]}`
   }
   if (isRangeSelector.value) {
     const query = selector.value.query as Selector<SelectorType.Sift>['query']
-    return `
-      ${Object.keys(query)[0]}
-      ∈ [${(Object.values(query)[0]).$gte},
-      ${(Object.values(query)[0]).$lt})
-    `
+    return `${Object.keys(query)[0]} ∈ (${(Object.values(query)[0]).$gt}, ${(Object.values(query)[0]).$lte}]`
   }
   if (isSearchSelector.value) {
     return `search: '${(selector.value as Selector<SelectorType.Fuse>).query.pattern}'`
@@ -60,9 +53,10 @@ const text = computed(() => {
 </script>
 
 <template>
-  <div class="border flex gap-1 px-1">
-    {{ text }}
+  <div chip>
+    <span class="whitespace-nowrap">{{ text }}</span>
     <button
+      type="button"
       icon-btn
       title="Remove"
       @click="emit('removeSelector', selector)"

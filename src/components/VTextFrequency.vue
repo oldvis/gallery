@@ -23,20 +23,15 @@ const dataSorted = computed(() => (
 </script>
 
 <template>
-  <div p="b-2">
-    <div
+  <div class="px-2 pb-2 pt-1 text-sm leading-relaxed">
+    <button
       v-for="(d, i) in dataSorted"
       :key="i"
-      icon-btn
-      p="x-2 t-1"
+      type="button"
+      class="mr-2 inline-block text-left text-gray-700 opacity-75 transition hover:opacity-100 hover:text-teal-600 dark:text-gray-200"
       @click="emit('clickDatum', d)"
     >
-      <span :class="{ underline: d.selected === true }">
-        {{ d.label ?? d.content }}
-      </span>
-      <span>
-        ({{ d.frequency }})
-      </span>
-    </div>
+      <span :class="{ underline: d.selected === true }">{{ d.label ?? d.content }}</span> ({{ d.frequency }})
+    </button>
   </div>
 </template>

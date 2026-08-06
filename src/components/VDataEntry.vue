@@ -20,6 +20,8 @@ const props = defineProps({
 
 const { datum } = toRefs(props)
 const showMetadata = ref(false)
+const imageFailed = ref(false)
+const imageLoading = ref(false)
 const { addSuccessMessage } = useStore()
 const { copy } = useClipboard()
 
@@ -27,20 +29,67 @@ const onClickCopy = () => {
   copy(JSON.stringify(datum.value))
   addSuccessMessage('Metadata Copied.')
 }
-const isHttps = (url: string | null | undefined): boolean => {
-  if (url === null || url === undefined) {
-    return false
+
+/** Parse only http(s) URLs; malformed or other schemes return null. */
+const safeHttpUrl = (url: string | null | undefined): string | null => {
+  if (url === null || url === undefined || url === '') return null
+  try {
+    const parsed = new URL(url)
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return url
+    }
+    return null
   }
-  return new URL(url).protocol === 'https:'
+  catch {
+    return null
+  }
 }
+
+const downloadUrlKind = computed((): 'https' | 'http' | 'unavailable' => {
+  const safe = safeHttpUrl(datum.value.downloadUrl)
+  if (safe === null) return 'unavailable'
+  return new URL(safe).protocol === 'https:' ? 'https' : 'http'
+})
+
+const resetImageState = (): void => {
+  imageFailed.value = false
+  imageLoading.value = downloadUrlKind.value === 'https'
+}
+
+watch(() => datum.value.downloadUrl, resetImageState, { immediate: true })
+
+const onImageLoad = (): void => {
+  imageLoading.value = false
+}
+
+const onImageError = (): void => {
+  imageLoading.value = false
+  imageFailed.value = true
+}
+
+/** Cached images may finish before @load binds — sync from the element. */
+const onImageRef = (el: unknown): void => {
+  const img = el as HTMLImageElement | null
+  if (img !== null && img.complete) {
+    if (img.naturalWidth > 0) onImageLoad()
+    else onImageError()
+  }
+}
+
+const viewHref = computed(() => safeHttpUrl(datum.value.viewUrl))
+const urlActionHref = computed(() => (
+  viewHref.value ?? safeHttpUrl(datum.value.downloadUrl)
+))
+const imageErrorLead = computed((): string | null => {
+  if (downloadUrlKind.value === 'https' && !imageFailed.value) return null
+  if (imageFailed.value) return 'Image failed to load.'
+  if (downloadUrlKind.value === 'http') return 'The image is served over HTTP (not HTTPS).'
+  return 'The image URL is missing or invalid.'
+})
 </script>
 
 <template>
-  <div
-    class="p-1 text-sm"
-    bg="slate-100 dark:slate-900"
-    border="~ gray-200 rounded"
-  >
+  <div class="p-2 text-sm bg-white dark:bg-gray-900">
     <div class="flex">
       <div v-if="index !== null" class="text-gray">
         {{ index }}. &nbsp;
@@ -51,15 +100,48 @@ const isHttps = (url: string | null | undefined): boolean => {
       class="pt-1 gap-1"
       flex="~ col sm:row"
     >
-      <div class="basis-4/10">
-        <img
-          v-if="isHttps(datum.downloadUrl)"
-          :src="datum.downloadUrl ?? ''"
+      <div class="basis-4/10 min-w-0">
+        <div
+          class="relative flex min-h-40 items-center justify-center overflow-hidden border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-950"
         >
-        <span v-else>
-          The image resource is not served with HTTPS.
-          Please click the URL button to view it.
-        </span>
+          <div
+            v-if="downloadUrlKind === 'https' && imageLoading && !imageFailed"
+            class="absolute inset-0 z-1 flex items-center justify-center gap-2 text-sm text-gray-500 pointer-events-none"
+          >
+            <div
+              class="i-fa6-solid:spinner"
+              animate-spin
+            />
+            Loading image
+          </div>
+          <img
+            v-if="downloadUrlKind === 'https' && !imageFailed"
+            :ref="onImageRef"
+            class="max-h-full max-w-full object-contain"
+            :src="datum.downloadUrl ?? ''"
+            decoding="async"
+            @load="onImageLoad"
+            @error="onImageError"
+          >
+          <span
+            v-else-if="imageErrorLead !== null"
+            class="p-3 text-center text-gray-600 dark:text-gray-300"
+          >
+            {{ imageErrorLead }}
+            Please use
+            <a
+              v-if="urlActionHref !== null"
+              class="text-teal-700 underline underline-offset-2 dark:text-teal-300 hover:text-teal-800 dark:hover:text-teal-200"
+              :href="urlActionHref"
+              target="_blank"
+              rel="noopener noreferrer"
+            >URL</a>
+            <template v-else>
+              URL
+            </template>
+            to view it.
+          </span>
+        </div>
       </div>
       <div
         class="basis-6/10"

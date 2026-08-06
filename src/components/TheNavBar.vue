@@ -1,23 +1,31 @@
 <template>
   <nav
-    class="flex"
-    border="b gray-200"
-    p="x-3 y-1"
+    class="status-strip bg-white dark:bg-hex-121212 border-b border-gray-200 dark:border-gray-700"
   >
-    <img
-      class="h-28px pr-1"
-      src="/favicon.svg"
-    >
-    <span class="text-lg font-bold">
-      OldVis Gallery
-    </span>
-    <div class="flex gap-6 text-sm items-center ml-auto">
+    <div class="flex shrink-0 gap-1 items-center">
+      <img
+        class="h-5 w-5"
+        src="/favicon.svg"
+        alt=""
+      >
+      <span class="text-sm font-semibold">
+        OldVis<span class="text-gray-500 font-normal dark:text-gray-400"> · Gallery</span>
+      </span>
+    </div>
+    <div class="grow" />
+    <div class="flex gap-1 items-center shrink-0">
       <TheDialogAbout />
-      <button icon-btn @click="toggleDark()">
+      <button
+        type="button"
+        icon-btn
+        title="Toggle theme"
+        @click="toggleDark()"
+      >
         <div i-fa6-regular:sun dark:i-fa6-regular:moon />
       </button>
       <a
-        i-fa6-brands:github icon-btn
+        i-fa6-brands:github
+        icon-btn
         rel="noreferrer"
         href="https://github.com/oldvis/gallery"
         target="_blank"

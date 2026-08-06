@@ -4,7 +4,7 @@ test('gallery loads entries', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   await expect(page.getByTestId('gallery-entries')).toBeVisible()
   await expect(page.getByTestId('entries-count')).not.toHaveText('0', { timeout: 60_000 })
-  await expect(page.locator('[data-testid="gallery-entries"] .p-1.text-sm').first()).toBeVisible({ timeout: 60_000 })
+  await expect(page.getByTestId('gallery-entries').locator('.text-sm').first()).toBeVisible({ timeout: 60_000 })
 })
 
 test('URL freeform search filters results', async ({ page }) => {

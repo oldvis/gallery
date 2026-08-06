@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import { QUERY_FIELDS } from '~/plugins/queryFields'
+
 const dialog = ref(false)
+const fieldList = QUERY_FIELDS.join(', ')
 </script>
 
 <template>
   <VDialog :dialog="dialog">
     <template #activator>
       <button
+        type="button"
         icon-btn
         title="Search Help"
         @click="dialog = !dialog"
@@ -15,14 +19,20 @@ const dialog = ref(false)
     </template>
     <template #default>
       <div
-        class="rounded shadow max-w-lg max-h-[80vh] flex flex-col"
-        bg="white dark:gray-700"
+        dialog-panel
+        class="w-[32rem] max-w-[calc(100vw-2rem)] max-h-[80vh] flex flex-col"
+        role="dialog"
+        aria-labelledby="search-help-title"
       >
-        <div class="flex p-4 pb-0">
-          <div class="text-xl font-bold">
-            Search Syntax Help
+        <div class="status-strip border-b border-gray-200 dark:border-gray-700 shrink-0">
+          <div
+            id="search-help-title"
+            strip-label
+          >
+            Search Help
           </div>
           <button
+            type="button"
             icon-btn
             class="ml-auto"
             title="Close"
@@ -31,9 +41,12 @@ const dialog = ref(false)
             <div class="i-fa6-solid:xmark" />
           </button>
         </div>
-        <div class="flex-1 overflow-y-auto p-4 pt-4 space-y-4 text-sm">
+        <div
+          dialog-body
+          class="flex-1 overflow-y-auto space-y-4 text-sm !block"
+        >
           <div>
-            <h3 class="text-lg font-semibold mb-2">
+            <h3 class="font-semibold mb-2">
               Freeform Search
             </h3>
             <p class="mb-2">
@@ -42,20 +55,20 @@ const dialog = ref(false)
             <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
               Example:
             </div>
-            <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+            <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
               Neurath, Otto
             </div>
           </div>
 
-          <hr class="border-gray-300 dark:border-gray-600">
+          <hr class="m-0 border-gray-200 dark:border-gray-700">
 
-          <div>
-            <h3 class="text-lg font-semibold mb-2">
+          <div class="pt-3">
+            <h3 class="font-semibold mb-2">
               Field-Specific Search
             </h3>
             <p class="mb-2">
               Search specific metadata fields using the format <code>{{ '<field>:(<value>)' }}</code>.
-              Valid fields: <code>uuid</code>, <code>authors</code>, <code>displayName</code>, <code>viewUrl</code>, <code>downloadUrl</code>, <code>md5</code>, <code>phash</code>, <code>languages</code>, <code>tags</code>, <code>abstract</code>, <code>rights</code>, <code>source.name</code>, <code>source.url</code>, <code>source.accessDate</code>.
+              Valid fields: <code>{{ fieldList }}</code>.
             </p>
 
             <div class="space-y-3">
@@ -63,7 +76,7 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by authors
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   authors:(Playfair, William)
                 </div>
               </div>
@@ -72,7 +85,7 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by tags
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   tags:(interactive)
                 </div>
               </div>
@@ -81,7 +94,7 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by languages
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   languages:(English)
                 </div>
               </div>
@@ -90,17 +103,17 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by source name
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   source.name:(Internet Archive)
                 </div>
               </div>
             </div>
           </div>
 
-          <hr class="border-gray-300 dark:border-gray-600">
+          <hr class="m-0 border-gray-200 dark:border-gray-700">
 
-          <div>
-            <h3 class="text-lg font-semibold mb-2">
+          <div class="pt-3">
+            <h3 class="font-semibold mb-2">
               Image Semantic Search
             </h3>
             <p class="mb-2">
@@ -111,7 +124,7 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by image content
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   image:(bar chart)
                 </div>
               </div>
@@ -120,7 +133,7 @@ const dialog = ref(false)
                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
                   Example: search by image content with a custom number of results
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+                <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
                   image:(line chart|topk:20)
                 </div>
                 <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -130,10 +143,10 @@ const dialog = ref(false)
             </div>
           </div>
 
-          <hr class="border-gray-300 dark:border-gray-600">
+          <hr class="m-0 border-gray-200 dark:border-gray-700">
 
-          <div>
-            <h3 class="text-lg font-semibold mb-2">
+          <div class="pt-3">
+            <h3 class="font-semibold mb-2">
               Multi-Criteria Queries
             </h3>
             <p class="mb-2">
@@ -142,15 +155,15 @@ const dialog = ref(false)
             <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
               Example:
             </div>
-            <div class="bg-gray-100 dark:bg-gray-600 p-2 rounded font-mono text-xs">
+            <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono">
               authors:(Playfair)&source.name:(Internet Archive)
             </div>
           </div>
 
-          <hr class="border-gray-300 dark:border-gray-600">
+          <hr class="m-0 border-gray-200 dark:border-gray-700">
 
-          <div>
-            <h3 class="text-lg font-semibold mb-2">
+          <div class="pt-3">
+            <h3 class="font-semibold mb-2">
               Notes
             </h3>
             <ul class="list-disc list-inside space-y-1 text-xs text-gray-600 dark:text-gray-400">
@@ -158,6 +171,15 @@ const dialog = ref(false)
               <li>Field names are case-sensitive.</li>
             </ul>
           </div>
+        </div>
+        <div class="status-strip border-t border-gray-200 dark:border-gray-700 justify-end shrink-0">
+          <button
+            type="button"
+            btn-secondary
+            @click="dialog = false"
+          >
+            Close
+          </button>
         </div>
       </div>
     </template>

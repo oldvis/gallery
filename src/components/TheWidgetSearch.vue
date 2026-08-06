@@ -63,19 +63,21 @@ onKeyStroke('Enter', () => {
 </script>
 
 <template>
-  <div class="relative flex">
+  <div class="relative flex items-center">
     <input
       ref="target"
       v-model="input"
       input-area
       type="text"
-      class="my-1 w-full text-sm pr-6"
-      placeholder="Search"
+      class="w-40 max-w-[40vw] text-sm pr-6"
+      placeholder="Search…"
       required
     >
     <button
+      type="button"
       icon-btn
-      class="absolute top-0 right-0 h-full pr-1"
+      class="absolute right-0.5"
+      title="Run search (Enter)"
       @click="onSearch"
     >
       <div class="i-fa6-solid:magnifying-glass" />

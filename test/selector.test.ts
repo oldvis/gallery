@@ -35,11 +35,19 @@ describe('selector store applySelectors', () => {
     expect(result.map((d) => d.uuid)).toEqual(['a'])
   })
 
-  it('filters with range on publishDate', async () => {
+  it('filters with open-closed range on publishDate', async () => {
     const store = useStore()
+    const ranged = [
+      ...data,
+      fixture({ uuid: 'd', displayName: 'EdgeLeft', publishDate: 1800 }),
+      fixture({ uuid: 'e', displayName: 'EdgeRight', publishDate: 1940 }),
+    ]
     store.toggleRangeSelector('publishDate', [1800, 1940])
-    const result = await store.applySelectors(data)
-    expect(result.map((d) => d.uuid).sort()).toEqual(['b', 'c'])
+    const result = await store.applySelectors(ranged)
+    expect(result.map((d) => d.uuid).sort()).toEqual(['b', 'c', 'e'])
+    expect(store.selectors[0].query).toEqual({
+      publishDate: { $gt: 1800, $lte: 1940 },
+    })
   })
 
   it('filters with fuse search pattern', async () => {

@@ -26,44 +26,48 @@ const { toggleEqualSelector } = useSelectorStore()
 
 <template>
   <div view-header>
-    <div class="i-fa6-solid:info" />
-    <div class="font-bold">
+    <div class="i-fa6-solid:info text-gray-500" />
+    <div strip-label>
       Temporal
     </div>
-    <div class="flex ml-auto">
-      <div class="my-auto">
-        bin size:&nbsp;
-      </div>
-      <input
-        v-model="binStep"
-        input-area
-        type="number"
-        min="1"
-        max="1000"
-        class="w-15 text-xs"
-      >
-      <div class="my-auto">
-        &nbsp;years
-      </div>
-    </div>
-    <div border="r gray-200" />
-    <div class="text-sm my-auto flex">
-      year range:&nbsp;
-      <div class="font-bold">
-        [{{ minYear }}, {{ maxYear }}]
-      </div>
-      <div
-        v-if="nNull !== 0"
-        icon-btn
-        class="flex pl-1"
-        @click="toggleEqualSelector('publishDate', null)"
-      >
-        (#unknown:&nbsp;
-        <div class="font-bold">
-          {{ nNull }}
-        </div>
-        )
-      </div>
+    <div class="strip-meta flex ml-auto flex-wrap gap-x-1.5 gap-y-1 items-center">
+      <label class="flex gap-1 items-center">
+        <span>Bin Size</span>
+        <input
+          v-model="binStep"
+          input-area
+          type="number"
+          min="1"
+          max="1000"
+          class="w-14"
+          title="Bin size"
+        >
+        <span>years</span>
+      </label>
+      <span
+        strip-sep
+        aria-hidden="true"
+      >·</span>
+      <span>
+        Year Range
+        <span strip-meta-em>[{{ minYear }}, {{ maxYear }}]</span>
+      </span>
+      <template v-if="nNull !== 0">
+        <span
+          strip-sep
+          aria-hidden="true"
+        >·</span>
+        <button
+          type="button"
+          btn-ghost
+          class="flex gap-0.5 items-center px-1!"
+          title="Filter entries with unknown publish year"
+          @click="toggleEqualSelector('publishDate', null)"
+        >
+          Unknown year
+          <span strip-meta-em>({{ nNull }})</span>
+        </button>
+      </template>
     </div>
   </div>
 </template>

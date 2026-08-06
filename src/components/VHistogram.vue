@@ -2,7 +2,6 @@
 import {
   axisBottom,
   axisLeft,
-  bin,
   format,
   scaleLinear,
   select,
@@ -10,15 +9,21 @@ import {
 } from 'd3'
 import { toRefs } from 'vue'
 
+/** One histogram bin covering the open-closed interval (x0, x1]. */
+interface OpenClosedBin extends Array<number> {
+  x0: number
+  x1: number
+}
+
 const props = defineProps({
   data: {
     type: Array as PropType<number[]>,
     required: true,
   },
-  // the number of thresholds for binning
-  nThresholds: {
+  /** Fixed bin width in the same units as data (e.g. years). */
+  binStep: {
     type: Number as PropType<number>,
-    default: 20,
+    required: true,
   },
   // the top margin, in pixels
   marginTop: {
@@ -50,10 +55,10 @@ const props = defineProps({
     type: Number as PropType<number>,
     default: 400,
   },
-  // an array of (ordinal) x-values
+  // [xmin, xmax] — bins cover (edge_i, edge_{i+1}] over this domain
   xDomain: {
     type: Object as PropType<[number, number]>,
-    default: null,
+    required: true,
   },
   // [ymin, ymax]
   yDomain: {
@@ -73,9 +78,41 @@ const props = defineProps({
 })
 const emit = defineEmits(['clickBar'])
 
+/**
+ * Bin numeric values into fixed-width (x0, x1] intervals over [domainMin, domainMax].
+ * The domain max lands in the last full-width bin — no thin overflow bar.
+ */
+const buildOpenClosedBins = (
+  data: number[],
+  domain: [number, number],
+  step: number,
+): OpenClosedBin[] => {
+  if (step <= 0) return []
+  const [domainMin, domainMax] = domain
+  if (domainMax <= domainMin) return []
+
+  const edges: number[] = []
+  for (let x = domainMin; x < domainMax; x += step) {
+    edges.push(x)
+  }
+  edges.push(domainMax)
+
+  const bins: OpenClosedBin[] = []
+  for (let i = 0; i < edges.length - 1; i += 1) {
+    const x0 = edges[i]
+    const x1 = edges[i + 1]
+    const values = data.filter((d) => d > x0 && d <= x1)
+    const bin = values as OpenClosedBin
+    bin.x0 = x0
+    bin.x1 = x1
+    bins.push(bin)
+  }
+  return bins
+}
+
 const {
   data,
-  nThresholds,
+  binStep,
   width,
   height,
   marginTop,
@@ -88,27 +125,24 @@ const {
   color,
 } = toRefs(props)
 
-// Bin the data.
 const bins = computed(() => (
-  bin().thresholds(nThresholds.value).value((d) => d)(data.value)
+  buildOpenClosedBins(data.value, xDomain.value, binStep.value)
 ))
 
-// Compute default domains, and unique the x-domain.
-const _xDomain = computed(() => (
-  xDomain.value ?? [bins.value[0].x0, bins.value[bins.value.length - 1].x1]
-))
+const nTicks = computed(() => Math.max(1, bins.value.length))
+
 const _yDomain = computed(() => (
-  yDomain.value ?? [0, Math.max(...bins.value.map((d) => d.length))]
+  yDomain.value ?? [0, Math.max(0, ...bins.value.map((d) => d.length))]
 ))
 
 const xScale = computed(() => (
-  scaleLinear(_xDomain.value, [marginLeft.value, width.value - marginRight.value])
+  scaleLinear(xDomain.value, [marginLeft.value, width.value - marginRight.value])
 ))
 const yScale = computed(() => (
   scaleLinear(_yDomain.value, [height.value - marginBottom.value, marginTop.value])
 ))
 const xAxis = computed(() => (
-  axisBottom(xScale.value).ticks(Math.min(width.value / 20, nThresholds.value), format('d'))
+  axisBottom(xScale.value).ticks(Math.min(width.value / 20, nTicks.value), format('d'))
 ))
 const yAxis = computed(() => (
   axisLeft(yScale.value).ticks(height.value / 40, format('d'))
@@ -152,17 +186,17 @@ watchEffect(() => {
         :key="i"
       >
         <rect
-          :x="xScale(d.x0 as number) + xPadding"
+          :x="xScale(d.x0) + xPadding"
           :y="yScale(d.length)"
           :height="Math.max(0, yScale(0) - yScale(d.length))"
-          :width="Math.max(0, xScale(d.x1 as number) - xScale(d.x0 as number) - xPadding)"
+          :width="Math.max(0, xScale(d.x1) - xScale(d.x0) - xPadding)"
         />
         <rect
           hover:fill="opacity-50 teal-700"
-          :x="xScale(d.x0 as number) + xPadding"
+          :x="xScale(d.x0) + xPadding"
           :y="yScale(_yDomain[1])"
           :height="Math.max(0, yScale(0) - yScale(_yDomain[1]))"
-          :width="Math.max(0, xScale(d.x1 as number) - xScale(d.x0 as number) - xPadding)"
+          :width="Math.max(0, xScale(d.x1) - xScale(d.x0) - xPadding)"
           fill="rgba(0, 0, 0, 0)"
           style="cursor: pointer;"
           @click="emit('clickBar', [d.x0, d.x1])"

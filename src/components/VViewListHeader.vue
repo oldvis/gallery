@@ -8,15 +8,13 @@ defineProps<{
 
 <template>
   <div view-header>
-    <div class="i-fa6-solid:info" />
-    <div class="font-bold">
+    <div class="i-fa6-solid:info text-gray-500" />
+    <div strip-label>
       {{ title }}
     </div>
-    <div class="flex ml-auto">
-      #{{ field }}:&nbsp;
-      <div class="font-bold">
-        {{ count }}
-      </div>
+    <div class="strip-meta flex ml-auto items-center gap-1">
+      <span>{{ field }}</span>
+      <span strip-meta-em>{{ count }}</span>
     </div>
   </div>
 </template>

@@ -53,7 +53,7 @@ describe('loadVisualizations', () => {
     }))
 
     const visualizations = await loadVisualizations()
-    const byUuid = Object.fromEntries(visualizations.map(d => [d.uuid, d]))
+    const byUuid = Object.fromEntries(visualizations.map((d) => [d.uuid, d]))
 
     expect(byUuid['single-year'].publishDate).toBe(1786)
     expect(byUuid['single-year'].languages).toEqual(['English', 'Slavic'])

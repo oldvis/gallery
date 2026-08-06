@@ -46,25 +46,28 @@ watch(selectors, () => {
 <template>
   <div
     v-if="isLoading || !initialized"
-    class="m-auto text-xl flex gap-2"
+    class="m-auto text-sm flex gap-2 text-gray-500"
   >
     Loading
     <div i-fa6-solid:spinner animate-spin />
   </div>
-  <template v-else>
-    <TheViewSelectors m="x-1 t-1" />
+  <div
+    v-else
+    class="flex flex-col grow min-h-0"
+  >
+    <TheViewSelectors />
     <div
-      class="m-1 gap-1 overflow-auto"
+      class="gap-2 p-2 overflow-auto grow min-h-0"
       flex="~ col sm:row"
     >
       <div
-        class="gap-1 flex-1 min-h-50"
+        class="gap-1 flex-1 min-h-50 min-w-0"
         display="none sm:flex"
         flex="~ col"
       >
-        <TheViewTime class="basis-1/4" />
+        <TheViewTime class="basis-1/4 min-h-0" />
         <div
-          class="col-span-2 overflow-auto basis-3/4 gap-1"
+          class="overflow-auto basis-3/4 gap-1 min-h-0"
           grid="~ cols-2"
         >
           <TheViewListTags />
@@ -73,7 +76,7 @@ watch(selectors, () => {
           <TheViewListSources />
         </div>
       </div>
-      <TheViewEntries class="flex-1" />
+      <TheViewEntries class="flex-1 min-w-0" />
     </div>
-  </template>
+  </div>
 </template>

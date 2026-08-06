@@ -12,9 +12,6 @@ const years = computed(() => (
 ))
 const minYear = computed(() => Math.min(...years.value))
 const maxYear = computed(() => Math.max(...years.value))
-const nThresholds = computed(() => (
-  Math.ceil((maxYear.value - minYear.value) / binStep.value)
-))
 const xDomain = computed((): [number, number] => ([
   binStep.value * Math.floor(minYear.value / binStep.value),
   binStep.value * Math.ceil(maxYear.value / binStep.value),
@@ -34,7 +31,7 @@ const { toggleRangeSelector } = useSelectorStore()
       <VHistogram
         v-if="binStep >= 1 && binStep <= 1000"
         :data="years"
-        :n-thresholds="nThresholds"
+        :bin-step="binStep"
         :width="width"
         :height="height"
         :x-domain="xDomain"

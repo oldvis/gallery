@@ -6,7 +6,8 @@ const dialog = ref(false)
   <VDialog :dialog="dialog">
     <template #activator>
       <button
-        icon-btn
+        type="button"
+        btn-secondary
         @click="dialog = !dialog"
       >
         About
@@ -14,14 +15,20 @@ const dialog = ref(false)
     </template>
     <template #default>
       <div
-        class="rounded shadow max-w-md p-4"
-        bg="white dark:gray-700"
+        dialog-panel
+        class="w-96 max-w-[calc(100vw-2rem)]"
+        role="dialog"
+        aria-labelledby="about-title"
       >
-        <div class="flex">
-          <div class="text-xl font-bold">
-            About This Website
+        <div class="status-strip border-b border-gray-200 dark:border-gray-700">
+          <div
+            id="about-title"
+            strip-label
+          >
+            About
           </div>
           <button
+            type="button"
             icon-btn
             class="ml-auto"
             title="Close"
@@ -30,12 +37,31 @@ const dialog = ref(false)
             <div class="i-fa6-solid:xmark" />
           </button>
         </div>
-        <div class="pt-2">
-          This website is a gallery of old visualizations.
-          The old visualizations are collected from multiple data sources.
-          The copyright of the images belongs to their corresponding owners as shown in the metadata.
-          Your are welcome to contribute to this gallery in the
-          <a class="hover:underline" target="_blank" href="https://github.com/oldvis/gallery">GitHub repository</a>.
+        <div dialog-body class="text-sm text-gray-700 dark:text-gray-200 space-y-3">
+          <p>
+            This website is a gallery of old visualizations.
+            The old visualizations are collected from multiple data sources.
+            The copyright of the images belongs to their corresponding owners as shown in the metadata.
+            You are welcome to contribute to this gallery in the
+            <a
+              class="text-teal-700 hover:underline dark:text-teal-300"
+              target="_blank"
+              href="https://github.com/oldvis/gallery"
+            >GitHub repository</a>.
+          </p>
+          <p>
+            Temporal, tags, authors, and languages metadata may be incomplete, noisy, or inferred.
+            Treat these fields as approximate guides for browsing, not as authoritative catalog records.
+          </p>
+        </div>
+        <div class="status-strip border-t border-gray-200 dark:border-gray-700 justify-end">
+          <button
+            type="button"
+            btn-secondary
+            @click="dialog = false"
+          >
+            Close
+          </button>
         </div>
       </div>
     </template>
