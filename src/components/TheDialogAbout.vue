@@ -20,7 +20,7 @@ const dialog = ref(false)
         role="dialog"
         aria-labelledby="about-title"
       >
-        <div class="status-strip border-b border-gray-200 dark:border-gray-700">
+        <div class="strip border-b border-gray-200 dark:border-gray-700">
           <div
             id="about-title"
             strip-label
@@ -54,7 +54,7 @@ const dialog = ref(false)
             Treat these fields as approximate guides for browsing, not as authoritative catalog records.
           </p>
         </div>
-        <div class="status-strip border-t border-gray-200 dark:border-gray-700 justify-end">
+        <div class="strip border-t border-gray-200 dark:border-gray-700 justify-end">
           <button
             type="button"
             btn-secondary

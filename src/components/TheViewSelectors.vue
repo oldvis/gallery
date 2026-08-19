@@ -10,11 +10,11 @@ const { removeSelector } = store
 
 <template>
   <!--
-    Override status-strip flex-wrap: chips must scroll inside a width-bounded
+    Override strip flex-wrap: chips must scroll inside a width-bounded
     flex child (basis-0), not expand the page or wrap under Temporal/Entries.
   -->
   <div
-    status-strip
+    strip
     class="flex-nowrap! border-b border-gray-200 dark:border-gray-700"
   >
     <div class="flex shrink-0 gap-1.5 items-center">

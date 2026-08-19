@@ -35,7 +35,7 @@ const { toggleEqualSelector } = useSelectorStore()
         <span>Bin size</span>
         <input
           v-model="binStep"
-          input-area
+          strip-input
           type="number"
           min="1"
           max="1000"
@@ -50,7 +50,7 @@ const { toggleEqualSelector } = useSelectorStore()
       >·</span>
       <span>
         Year range
-        <span strip-meta-em>[{{ minYear }}, {{ maxYear }}]</span>
+        <span strip-strong>[{{ minYear }}, {{ maxYear }}]</span>
       </span>
       <template v-if="nNull !== 0">
         <span
@@ -65,7 +65,7 @@ const { toggleEqualSelector } = useSelectorStore()
           @click="toggleEqualSelector('publishDate', null)"
         >
           Unknown year
-          <span strip-meta-em>({{ nNull }})</span>
+          <span strip-strong>({{ nNull }})</span>
         </button>
       </template>
     </div>

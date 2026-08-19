@@ -98,7 +98,7 @@ const onApply = (): void => {
         role="dialog"
         aria-labelledby="query-title"
       >
-        <div class="status-strip border-b border-gray-200 dark:border-gray-700 shrink-0">
+        <div class="strip border-b border-gray-200 dark:border-gray-700 shrink-0">
           <div
             id="query-title"
             strip-label
@@ -150,7 +150,7 @@ const onApply = (): void => {
                 <input
                   v-model="row.value"
                   data-testid="query-row-value"
-                  input-area
+                  strip-input
                   class="min-w-0 flex-1"
                   type="text"
                   placeholder="Exact value"
@@ -160,7 +160,7 @@ const onApply = (): void => {
               <template v-else-if="row.type === 'search'">
                 <input
                   v-model="row.pattern"
-                  input-area
+                  strip-input
                   class="min-w-0 flex-1"
                   type="text"
                   placeholder="Keywords across metadata"
@@ -170,7 +170,7 @@ const onApply = (): void => {
               <template v-else-if="row.type === 'image'">
                 <input
                   v-model="row.description"
-                  input-area
+                  strip-input
                   class="min-w-0 flex-1"
                   type="text"
                   placeholder="Describe the image"
@@ -179,7 +179,7 @@ const onApply = (): void => {
                   <span class="whitespace-nowrap">Top-K</span>
                   <input
                     v-model="row.topK"
-                    input-area
+                    strip-input
                     class="w-14"
                     type="text"
                     inputmode="numeric"
@@ -194,7 +194,7 @@ const onApply = (): void => {
                   <span>After</span>
                   <input
                     v-model="row.from"
-                    input-area
+                    strip-input
                     class="w-20"
                     type="text"
                     inputmode="numeric"
@@ -206,7 +206,7 @@ const onApply = (): void => {
                   <span>through</span>
                   <input
                     v-model="row.to"
-                    input-area
+                    strip-input
                     class="w-20"
                     type="text"
                     inputmode="numeric"
@@ -257,7 +257,7 @@ const onApply = (): void => {
           </p>
         </div>
 
-        <div class="status-strip border-t border-gray-200 dark:border-gray-700 justify-end gap-1.5 shrink-0">
+        <div class="strip border-t border-gray-200 dark:border-gray-700 justify-end gap-1.5 shrink-0">
           <button
             type="button"
             btn-secondary

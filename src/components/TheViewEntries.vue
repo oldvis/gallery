@@ -110,7 +110,7 @@ const showNext = (): void => {
         <template v-if="selectors.length !== 0">
           <span>
             <span
-              strip-meta-em
+              strip-strong
               data-testid="matched-count"
             >{{ matched.length }}</span>
             matched
@@ -122,7 +122,7 @@ const showNext = (): void => {
         </template>
         <span>
           <span
-            strip-meta-em
+            strip-strong
             data-testid="entries-count"
           >{{ visualizations.length }}</span>
           entries
@@ -150,7 +150,7 @@ const showNext = (): void => {
           :index="startIndex + i + 1"
         />
       </div>
-      <div class="status-strip border-t border-gray-200 shrink-0 dark:border-gray-700">
+      <div class="strip border-t border-gray-200 shrink-0 dark:border-gray-700">
         <div class="flex flex-wrap gap-1 items-center">
           <button
             type="button"

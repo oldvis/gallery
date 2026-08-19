@@ -70,16 +70,16 @@ components:
 
 OldVis apps are **productivity tools** for labeling and browsing historical visualizations. The UI should feel calm, dense, and fast — not marketing-polished. Annotators spend hours here; chrome must stay out of the way of the image and the next action.
 
-Shared identity is **family resemblance**, not pixel-lockstep across repos. All apps share naming, type, color ladder, and shell grammar. Task-specific surfaces (classification buttons, Konva tools, gallery facets, taxonomy trees) stay in each app.
+Shared identity is **family resemblance**, not pixel-lockstep across repos. All apps share naming, type, color ladder, and shell grammar. Task-specific surfaces (label grids, draw tools, facets, trees) stay in each app and consume these tokens — they do not belong in this file as implementation recipes.
 
-Brand format in the nav: **`OldVis · {Task}`** where Task is one of: Classify, Segment, Gallery, Taxonomy Label, Taxonomy Compare.
+Brand format in the nav: **`OldVis · {Task}`**. Document title: **`{Task} · OldVis`**.
 
 ## Colors
 
-- **Primary (Teal `#0d9488`):** Affirmative chrome commits — dialog **Save**, active filter state (`pill-on`). Classification yes-tones use the same hue as a soft tint (`btn-label`), not a solid fill. Segment Vis tag swatches use the solid hue.
-- **Danger (Red `#dc2626`):** Destructive chrome emphasis. Classification “Not X” uses a soft red tint (`btn-label-warn`). Segment **Not Vis** swatches use the solid hue.
+- **Primary (Teal `#0d9488`):** Affirmative chrome commits — dialog **Save**, active filter state (`pill-on`). Soft tint (`btn-label`) for yes-tones on classification buttons; solid fill for the same hue on tag/mark swatches.
+- **Danger (Red `#dc2626`):** Destructive chrome emphasis. Soft red tint (`btn-label-danger`) for “Not X” classification; solid fill for the same hue on negative tag/mark swatches.
 - **Neutral / Confident:** Unsure = soft gray (`btn-label-neutral` / solid `#6b7280` swatch). Confident = soft sky (`btn-label-confident` / solid `#0284c7` swatch). Meta tags, not a third solid primary.
-- **Mark categories (Segment):** Other Draw classes (Line, Arc, …) keep a categorical palette (`schemeCategory10`); do not reuse polarity hues for those.
+- **Other categories:** Extra mark/draw classes keep a categorical palette (`schemeCategory10`); do not reuse polarity hues for those.
 - **Secondary (outline white):** Chrome strip actions (Previous/Next, Download/Upload, Set annotator name, dialog Cancel) and filter toggles off-state.
 - **Ghost:** Low-emphasis text actions (Copy, metadata links, Clear, Details).
 - **Surfaces:** White / `#121212` dark page; strip bands gray-50 / gray-900; borders gray-200 / gray-700. Hierarchy via borders and density, not button shadows.
@@ -106,24 +106,26 @@ Keep the type ladder short — prefer weight over size/family switches:
 
 ## Layout
 
-Shell grammar for labeling apps:
+Shell grammar:
 
 1. **Nav** — favicon, `OldVis · {Task}`, identity control, theme, GitHub (plus app-specific nav widgets).
-2. **Top strip** — Selectors (Classify) or Draw | Tags (Segment) only (dense; not a second dumping ground for Progress).
+2. **Top strip** — Selectors or Tools only (dense; not a second dumping ground for Progress).
 3. **Workbench** — task surface (image + labels, canvas + objects, facets + entries, tree + entries).
-4. **Bottom strip** — Progress counts, Details (where applicable), Download / Upload.
+4. **Bottom strip** — Progress counts, Details (where applicable), Download / Upload. Apps without Progress omit this strip.
 
-Classify entry layout: **image left (~3/5), metadata + label controls right (~2/5)** inside one **Entries** workbench. Segment: **Entries** (~7/10 canvas) | **Objects** (~3/10 instance list). Do not move classification buttons under the image. Chrome label for the item queue is always **Entries** (not Subject / data object). **Entries** headers use the same images icon in every app.
+**Single-entry workbench:** Image left (~3/5), metadata + primary label controls right (~2/5). Do not move those controls under the image. **Split workbench:** Main canvas or tree | inspector list. Chrome label for the item queue is always **Entries** (not Subject / data object). **Entries** headers use the same images icon in every app.
 
-**Objects cards (Segment):** Inspector hierarchy — **mark class**(es) as `■ Class · ■ Class` (Draw palette; `+N` only after 3 unique types) when marks exist; muted `Shape {geometry}` line for the region shape (Rect/Point/Polygon); `Last modified by {name}`; Details / Repeat / Marks on the full card with compact `h-6` section headers (small chevrons / +); mark editors as flat field rows. Do not collapse unselected objects to a single row.
+**Inspectors:** Instance lists stay as cards with structure visible; do not collapse unselected items to a single row that hides fields.
 
-**Progress stats:** Coverage group first (`labeled n / total · unlabeled n` plus `skipped` when the app has it), then `|`, then confidence tags (`unsure · confident`). Middots stay inside a group; `|` separates axes. Example (with Skipped): `labeled 13 / 485 · unlabeled 472 · skipped 0 | unsure 2 · confident 5`. Details (Classify) sits after the tag group without a middot. In Segment, Unsure/Confident **buttons** stay single-word sentence-case labels; the Progress strip uses the lowercase forms. Unsure/Confident counts multilabel image tags that include those values (not a partition of total).
+**Progress stats:** Coverage group first (`labeled n / total · unlabeled n` plus `skipped` when the app has it), then `|`, then confidence tags (`unsure · confident`). Middots stay inside a group; `|` separates axes. Example (with skipped): `labeled 13 / 485 · unlabeled 472 · skipped 0 | unsure 2 · confident 5`. Details sits after the tag group without a middot. Confidence **buttons** stay single-word sentence case; the Progress strip uses the lowercase forms. Tag counts are not necessarily a partition of the catalog.
 
 Spacing is tight (`xs`/`sm`); prefer one workbench plane over nested heavy cards. Panels may use a light border + small radius; avoid multi-layer shadows.
 
-**Empty states:** Workbench empties use muted chrome type — `m-auto text-sm text-gray-500 p-3 dark:text-gray-400`. Do not use `text-xl` or other loud placeholder headlines. Shared Entries copy: **No entries matched**. Taxonomy Groups / tree empty: **No groups**. Keep loading / searching messages on the same quiet ladder.
+**Empty states:** Workbench empties use muted chrome type — `m-auto text-sm text-gray-500 p-3 dark:text-gray-400`. Do not use `text-xl` or other loud placeholder headlines. Entries: **No entries matched**. Group/tree panels: **No groups**. Keep loading / searching messages on the same quiet ladder.
 
-**Command bars:** Nav, Selectors, Entries header, image footer, and Progress share one geometry (`min-h-10`, `py-1.5`). Chrome controls inside them share `h-6` so vertical padding matches (never flush). Do not mix strip paddings. **Adjacent chrome controls in a cluster** (pills, Previous/Next, Download/Upload) use `gap-1`; reserve strip `gap-x-2` for spacing between strip regions (label · stats · actions), not between sibling buttons.
+**Failed images:** Never show the browser broken-image glyph. A failed **thumbnail** swaps to a muted image icon (`i-fa6-solid:image`, `text-gray-400 dark:text-gray-500`) in the same slot; if there is no image to show, leave the slot empty. Larger images keep a spinner while loading; on error, hide `<img>` and show quiet sentence-case copy that explains how to recover (local resource vs remote **URL** vs blocked HTTPS). No retry chrome, toasts, or a second image component.
+
+**Command bars:** Nav, Selectors/Tools, Entries header, image footer, and Progress share one geometry (`min-h-10`, `py-1.5`). Chrome controls inside them share `h-6` so vertical padding matches (never flush). Do not mix strip paddings. **Adjacent chrome controls in a cluster** (pills, Previous/Next, Download/Upload) use `gap-1`; reserve strip `gap-x-2` for spacing between strip regions (label · stats · actions), not between sibling buttons.
 
 **Information rule:** Reorganization is allowed. Removing filters, counts, actions, or metadata affordances is not. If something existed in the previous UI, it must remain reachable (possibly denser or collapsed behind Details).
 
@@ -137,38 +139,44 @@ Small radii (`~6px`) on buttons, inputs, and panels. Filter toggles (`pill` / `p
 
 ## Components
 
-### Buttons (Uno shortcuts in each app)
+Uno shortcuts are the chrome vocabulary. Prefix = family. Selected/active = `-on`. Do not use `base-btn` in templates (internal mixin).
+
+### Buttons and controls
+
+| Shortcut                                                                       | Use                                                                       |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| `btn`                                                                          | Primary fill — dialog Save / Retry (teal, `h-6`)                          |
+| `btn-secondary`                                                                | Outline chrome / Cancel                                                   |
+| `btn-ghost`                                                                    | Low-emphasis text actions                                                 |
+| `btn-danger`                                                                   | Destructive fill (red)                                                    |
+| `btn-neutral`                                                                  | Neutral fill (gray)                                                       |
+| `btn-label` / `btn-label-danger` / `btn-label-neutral` / `btn-label-confident` | Classification pairs only — soft tints, `text-base` (classification apps) |
+| `icon-btn`                                                                     | Icon-only (theme, GitHub, close) — not the `btn` geometry                 |
+| `pill` / `pill-on`                                                             | Filter toggles (`h-6`)                                                    |
+| `chip`                                                                         | Active filter tokens (`h-6`)                                              |
+| `tool-btn` / `tool-btn-on`                                                     | Draw tools — same `h-6` as pills (draw-tool apps)                         |
+| `kbd`                                                                          | Key hint on hot-path buttons                                              |
+
+### Strips, panels, dialogs, menus
 
 | Shortcut                                                            | Use                                                                     |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `btn-secondary`                                                     | Chrome / Cancel — outline white, `h-6`                                  |
-| `btn`                                                               | Dialog Save / Retry — filled teal, same `h-6`                           |
-| `btn-ghost`                                                         | Low-emphasis utilities (same `h-6`)                                     |
-| `btn-label*`                                                        | Classification labels only — soft tints (`text-base`)                   |
-| `pill` / `pill-on` / `chip`                                         | Filter toggles and active filter chips (`h-6`)                          |
-| `strip-label` / `strip-meta` / `strip-meta-em` / `strip-sep`        | Strip titles, muted copy, emphasized counts, middot (`·`) between stats |
-| `input-area`                                                        | Compact strip search input (`h-6`)                                      |
-| `dialog-panel` / `dialog-body` / `dialog-field` / `dialog-backdrop` | Modal chrome (see Dialogs)                                              |
-| `icon-btn`                                                          | Theme, GitHub, close                                                    |
-| `kbd`                                                               | Subtle key hint on hot-path buttons (inherits text color, low opacity)  |
-| `tool-btn` / `tool-btn-active`                                      | Segment draw tools — same `h-6` as pills (Segment `uno.config.ts` only) |
-| `menu-trigger` / `menu-panel` / `menu-item` / `menu-item-on`        | Segment compact selects (Segment only)                                  |
+| `strip`                                                             | App chrome row (nav, selectors/tools, progress) — gray band, `min-h-10` |
+| `strip-label` / `strip-meta` / `strip-strong` / `strip-sep`         | Strip title, muted copy, emphasized counts, middot                      |
+| `strip-input`                                                       | Search/filter input in a strip (`h-6`)                                  |
+| `view-container` / `view-header`                                    | Workbench panel + its header row                                        |
+| `dialog-backdrop` / `dialog-panel` / `dialog-body` / `dialog-field` | Modal chrome (`dialog-field` is `h-8`)                                  |
+| `menu-trigger` / `menu-panel` / `menu-item` / `menu-item-on`        | Compact selects (apps that have them)                                   |
 
 Focus-visible: teal ring. Disabled: reduced opacity, no pointer events.
 
-### Keyboard (Classify)
+### Keyboard
 
-| Keys      | Action                                                           |
-| --------- | ---------------------------------------------------------------- |
-| `1`–`8`   | Vis/NotVis … Table/NotTable (odd = yes column, even = no column) |
-| `9` / `0` | Unsure / Confident                                               |
-| `A` / `D` | Previous / Next entry                                            |
+Hot-path buttons may show a `kbd` hint. Ignore shortcuts when focus is in an editable field or a modifier (Ctrl/Meta/Alt) is held. Key maps stay app-local.
 
-Hints use the `kbd` badge on those buttons. Ignore shortcuts when focus is in an editable field or a modifier (Ctrl/Meta/Alt) is held.
+### Strips
 
-### Status strips
-
-Dense horizontal rows (`status-strip` / `view-header`). Top = Selectors/Tools. Bottom = Progress + I/O. Image-footer nav stays under the image only; side-pane utilities (View metadata, Copy, URL) stay in-pane without forming a half-width bar across the workbench. Inline strip **stats** use middot separators within a group (`strip-sep`: `1/1 labeled on page · 89 matched · 13511 entries`). Progress uses `|` between coverage and confidence-tag groups. Do not put middots around action controls (e.g. Details) — those sit after the stats with normal spacing.
+Dense horizontal rows (`strip` / `view-header`). Top = Selectors/Tools. Bottom = Progress + I/O. Image-footer nav stays under the image only; side-pane utilities (View metadata, Copy, URL) stay in-pane without forming a half-width bar across the workbench. Inline strip **stats** use middot separators within a group (`strip-sep`: `1/1 labeled on page · 89 matched · 13511 entries`). Progress uses `|` between coverage and confidence-tag groups. Do not put middots around action controls (e.g. Details) — those sit after the stats with normal spacing.
 
 ### Dialogs
 
@@ -176,7 +184,7 @@ Compact panel, not a spacious card. Structure:
 
 1. **Backdrop** — `dialog-backdrop` (centered, dimmed).
 2. **Panel** — `dialog-panel` (narrow, bordered, single soft shadow).
-3. **Header / footer** — reuse `status-strip` with border-b / border-t (same density as app chrome).
+3. **Header / footer** — reuse `strip` with border-b / border-t (same density as app chrome).
 4. **Body** — `dialog-body`; fields use `dialog-field` (`h-8`, not strip `h-6`).
 5. **Actions** — Cancel = `btn-secondary`, Save = `btn` (teal). Do not make both outline.
 
@@ -184,20 +192,21 @@ Keep Name + Save + Clear (or equivalent) capabilities. Nav Clear stays outside t
 
 ### Domain widgets
 
-Stay app-local: classification pairs, segmentation tool buttons, gallery facets, Element Plus trees. They must **consume** the shared color/type rules, not redefine a second palette.
+Stay app-local: classification pairs, draw tools, gallery facets, trees. They must **consume** the shared color/type rules, not redefine a second palette. Per-app layouts, dense-grid behavior, and inspector field order live in that app — not here.
 
 ## Do's and Don'ts
 
-- Do keep Progress + Download/Upload at the **bottom**.
+- Do keep Progress + Download/Upload at the **bottom** when the app has them.
 - Do keep Selectors/Tools at the **top**, without stuffing Progress into that row.
 - Do preserve every existing control and count; densify instead of deleting.
 - Do put entry position in the image footer (`n / matched`), not as `#index` under the title.
 - Do use `OldVis · {Task}` in the nav; align document titles (e.g. `Classify · OldVis`).
 - Do vision-check live screenshots after chrome copy/casing changes (catalog values left as stored).
+- Don't put per-app interaction recipes in this file (dense grids, tree-select, inspector field order).
 - Don't build a shared Vue button/card library until multiple apps truly duplicate chrome markup.
 - Don't add decorative gradients, hero imagery, or marketing card grids to labeling surfaces.
 - Don't block labeling behind identity; keep Set Name in the nav. Use a one-shot info snackbar for the unsigned nudge — not a permanent layout bar. The nudge stays until the user closes it or sets a name (same copy and chrome in every app: “Set a name in the header…”).
 - Don't invent parallel color shortcuts per repo; match this token ladder when editing `uno.config.ts`.
-- Don't require every app to define every shortcut — Classify keeps `btn-label*`; Segment keeps `tool-btn` / `menu-*`; shared chrome shortcuts must match.
-- Don't move Classify labels under the image.
+- Don't require every app to define every shortcut — classification apps keep `btn-label*`; draw-tool apps keep `tool-btn` / `tool-btn-on`; shared chrome shortcuts must match.
+- Don't move primary label controls under the image when the workbench has a metadata/control pane.
 - Don't style dialogs as airy marketing cards; reuse strip header/footer + `dialog-*` shortcuts.

@@ -24,7 +24,7 @@ const fieldList = QUERY_FIELDS.join(', ')
         role="dialog"
         aria-labelledby="search-help-title"
       >
-        <div class="status-strip border-b border-gray-200 dark:border-gray-700 shrink-0">
+        <div class="strip border-b border-gray-200 dark:border-gray-700 shrink-0">
           <div
             id="search-help-title"
             strip-label
@@ -172,7 +172,7 @@ const fieldList = QUERY_FIELDS.join(', ')
             </ul>
           </div>
         </div>
-        <div class="status-strip border-t border-gray-200 dark:border-gray-700 justify-end shrink-0">
+        <div class="strip border-t border-gray-200 dark:border-gray-700 justify-end shrink-0">
           <button
             type="button"
             btn-secondary

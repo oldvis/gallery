@@ -14,7 +14,7 @@ defineProps<{
     </div>
     <div class="strip-meta flex ml-auto items-center gap-1">
       <span>{{ field }}</span>
-      <span strip-meta-em>{{ count }}</span>
+      <span strip-strong>{{ count }}</span>
     </div>
   </div>
 </template>
