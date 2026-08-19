@@ -121,6 +121,8 @@ Classify entry layout: **image left (~3/5), metadata + label controls right (~2/
 
 Spacing is tight (`xs`/`sm`); prefer one workbench plane over nested heavy cards. Panels may use a light border + small radius; avoid multi-layer shadows.
 
+**Empty states:** Workbench empties use muted chrome type — `m-auto text-sm text-gray-500 p-3 dark:text-gray-400`. Do not use `text-xl` or other loud placeholder headlines. Shared Entries copy: **No entries matched**. Taxonomy Groups / tree empty: **No groups**. Keep loading / searching messages on the same quiet ladder.
+
 **Command bars:** Nav, Selectors, Entries header, image footer, and Progress share one geometry (`min-h-10`, `py-1.5`). Chrome controls inside them share `h-6` so vertical padding matches (never flush). Do not mix strip paddings. **Adjacent chrome controls in a cluster** (pills, Previous/Next, Download/Upload) use `gap-1`; reserve strip `gap-x-2` for spacing between strip regions (label · stats · actions), not between sibling buttons.
 
 **Information rule:** Reorganization is allowed. Removing filters, counts, actions, or metadata affordances is not. If something existed in the previous UI, it must remain reachable (possibly denser or collapsed behind Details).
@@ -191,6 +193,7 @@ Stay app-local: classification pairs, segmentation tool buttons, gallery facets,
 - Do preserve every existing control and count; densify instead of deleting.
 - Do put entry position in the image footer (`n / matched`), not as `#index` under the title.
 - Do use `OldVis · {Task}` in the nav; align document titles (e.g. `Classify · OldVis`).
+- Do vision-check live screenshots after chrome copy/casing changes (catalog values left as stored).
 - Don't build a shared Vue button/card library until multiple apps truly duplicate chrome markup.
 - Don't add decorative gradients, hero imagery, or marketing card grids to labeling surfaces.
 - Don't block labeling behind identity; keep Set Name in the nav. Use a one-shot info snackbar for the unsigned nudge — not a permanent layout bar. The nudge stays until the user closes it or sets a name (same copy and chrome in every app: “Set a name in the header…”).

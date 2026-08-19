@@ -131,7 +131,7 @@ const showNext = (): void => {
     </div>
     <div
       v-if="isLoading"
-      class="m-auto text-sm text-gray-500 p-3"
+      class="m-auto text-sm text-gray-500 p-3 dark:text-gray-400"
     >
       Searching…
     </div>
@@ -181,7 +181,7 @@ const showNext = (): void => {
     </div>
     <div
       v-else
-      class="m-auto text-sm text-gray-500 p-3"
+      class="m-auto text-sm text-gray-500 p-3 dark:text-gray-400"
     >
       No entries matched
     </div>
