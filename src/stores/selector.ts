@@ -114,6 +114,11 @@ const applyImageSelector = async (
     filename.split('.').slice(0, -1).join('.') || filename
   )
 
+  // Selectors run one after another. If an earlier filter left no rows, skip image search.
+  if (data.length === 0) {
+    return []
+  }
+
   try {
     const results = await searchByText(selector.query.query, selector.query.topK)
     const orderedUuids = results.map((r) => getFilenameStem(r.filename))

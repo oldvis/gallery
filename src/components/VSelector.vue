@@ -59,6 +59,7 @@ const text = computed(() => {
       type="button"
       icon-btn
       title="Remove"
+      data-testid="selector-remove"
       @click="emit('removeSelector', selector)"
     >
       <div class="i-fa6-solid:xmark m-auto" />

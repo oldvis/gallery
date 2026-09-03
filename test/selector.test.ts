@@ -74,4 +74,10 @@ describe('selector store applySelectors', () => {
     expect(store.selectors[0].type).toBe(SelectorType.Image)
     expect(store.selectors[0].query).toEqual({ query: 'bar chart', topK: 20 })
   })
+
+  it('skips image search when there are no visualizations', async () => {
+    const store = useStore()
+    store.addImageSelector('bar chart')
+    await expect(store.applySelectors([])).resolves.toEqual([])
+  })
 })

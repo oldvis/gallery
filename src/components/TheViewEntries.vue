@@ -38,18 +38,26 @@ const matched = ref<Visualization[]>([])
 const isLoading = ref(false)
 const startIndex = ref(0)
 const listEl = ref<HTMLDivElement | null>(null)
+/** Bumps on each watch fire so a slower, older applySelectors cannot overwrite a newer result. */
+let applyToken = 0
 
 watch([selectors, visualizations], async () => {
+  const token = applyToken += 1
   isLoading.value = true
   try {
-    matched.value = await selectorStore.applySelectors(visualizations.value)
+    const next = await selectorStore.applySelectors(visualizations.value)
+    if (token !== applyToken) return
+    matched.value = next
   }
   catch (error) {
     console.error('Error applying selectors:', error)
+    if (token !== applyToken) return
     matched.value = []
   }
   finally {
-    isLoading.value = false
+    if (token === applyToken) {
+      isLoading.value = false
+    }
   }
 }, { immediate: true, deep: true })
 
@@ -132,6 +140,7 @@ const showNext = (): void => {
     <div
       v-if="isLoading"
       class="m-auto text-sm text-gray-500 p-3 dark:text-gray-400"
+      data-testid="entries-searching"
     >
       Searching…
     </div>

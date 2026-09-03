@@ -11,6 +11,7 @@
     "test": "vitest",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
+    "bench:embed": "BENCH_EMBED=1 playwright test e2e/bench-embed.spec.ts",
     "docs:screenshot": "DOCS_SCREENSHOT=1 playwright test e2e/docs-screenshot.spec.ts",
     "up": "taze major -I"
   },

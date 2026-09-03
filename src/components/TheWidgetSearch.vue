@@ -71,6 +71,7 @@ onKeyStroke('Enter', () => {
       type="text"
       class="w-40 max-w-[40vw] text-sm pr-6"
       placeholder="Search…"
+      data-testid="search-input"
       required
     >
     <button
@@ -78,6 +79,7 @@ onKeyStroke('Enter', () => {
       icon-btn
       class="absolute right-0.5"
       title="Run search (Enter)"
+      data-testid="search-submit"
       @click="onSearch"
     >
       <div class="i-fa6-solid:magnifying-glass" />

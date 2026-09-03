@@ -6,7 +6,11 @@ const baseURL = 'http://127.0.0.1:4173'
 export default defineConfig({
   testDir: './e2e',
   // README capture is opt-in via `pnpm docs:screenshot`.
-  testIgnore: process.env.DOCS_SCREENSHOT ? [] : ['**/docs-screenshot.spec.ts'],
+  // Embedding benchmark is opt-in via `pnpm bench:embed` (downloads model from Hugging Face).
+  testIgnore: [
+    ...(process.env.DOCS_SCREENSHOT ? [] : ['**/docs-screenshot.spec.ts']),
+    ...(process.env.BENCH_EMBED ? [] : ['**/bench-embed.spec.ts']),
+  ],
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

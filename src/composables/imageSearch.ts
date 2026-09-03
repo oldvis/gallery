@@ -69,29 +69,42 @@ const calculateSimilarities = (
     .slice(0, topK)
 }
 
+// Kept at module scope so every useSearchByText() shares one CLIP load.
+// applyImageSelector calls that factory on each search; closure-local state
+// would call from_pretrained again (another progress bar) even though
+// Transformers.js already cached the weights.
+let embeddings: ImageEmbedding[] = []
+let svdTransformation: SVDTransformation
+let tokenizer: PreTrainedTokenizer
+let textModel: PreTrainedModel
+
+// In-flight or already-resolved load. Overlapping searches wait on it;
+// later searches await the resolved promise. Cleared only on failure so retry works.
+let initializing: Promise<void> | null = null
+
+const loadClip = withProgressBar(async () => {
+  embeddings = await loadImageEmbeddings()
+  svdTransformation = await loadSVDTransformation()
+  // Reference: https://github.com/huggingface/transformers.js/pull/227
+  tokenizer = await AutoTokenizer.from_pretrained(MODEL_NAME)
+  // NOTE: q8 is faster, more memory efficient, but less accurate than fp32.
+  textModel = await CLIPTextModelWithProjection.from_pretrained(MODEL_NAME, { dtype: 'q8' })
+})
+
+const initialize = async () => {
+  if (initializing === null) {
+    initializing = loadClip().catch((error: unknown) => {
+      initializing = null
+      throw error
+    })
+  }
+  await initializing
+}
+
 /** Utility to search by text */
 export const useSearchByText = () => {
-  let embeddings: ImageEmbedding[] = []
-  let svdTransformation: SVDTransformation
-  let tokenizer: PreTrainedTokenizer
-  let textModel: PreTrainedModel
-  let isInitialized = false
-
-  const initialize = withProgressBar(async () => {
-    if (isInitialized) return
-    embeddings = await loadImageEmbeddings()
-    svdTransformation = await loadSVDTransformation()
-    // Reference: https://github.com/huggingface/transformers.js/pull/227
-    tokenizer = await AutoTokenizer.from_pretrained(MODEL_NAME)
-    // NOTE: q8 is faster, more memory efficient, but less accurate than fp32
-    textModel = await CLIPTextModelWithProjection.from_pretrained(MODEL_NAME, { dtype: 'q8' })
-    isInitialized = true
-  })
-
   const searchByText = withProgressBar(async (textQuery: string, topK: number = 10): Promise<SearchResult[]> => {
-    if (!isInitialized) {
-      await initialize()
-    }
+    await initialize()
 
     const textInputs = tokenizer(textQuery, { padding: true, truncation: true })
     const textFeatures = await textModel(textInputs)

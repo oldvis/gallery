@@ -51,27 +51,28 @@ Active filters appear as chips under Selectors and are embedded in the page URL 
 
 Useful query examples (type them in **Search…**, or open the link):
 
-| Kind | Example | Result |
-| --- | --- | --- |
-| Keywords | [`Playfair`](https://oldvis.github.io/gallery/?search=Playfair) | Matches titles, abstracts, authors, tags, and related metadata |
-| Exact field | [`authors:(Playfair, William)`](https://oldvis.github.io/gallery/?authors:(Playfair,+William)) | Keeps entries whose `authors` field is exactly that value |
-| Image description | [`image:(bar chart)`](https://oldvis.github.io/gallery/?image:(bar+chart)) | CLIP semantic search over the pictures (`\|topk:<N>` optional) |
+| Kind              | Example                                                                                        | Result                                                         |
+| ----------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Keywords          | [`Playfair`](https://oldvis.github.io/gallery/?search=Playfair)                                | Matches titles, abstracts, authors, tags, and related metadata |
+| Exact field       | [`authors:(Playfair, William)`](https://oldvis.github.io/gallery/?authors:(Playfair,+William)) | Keeps entries whose `authors` field is exactly that value      |
+| Image description | [`image:(bar chart)`](https://oldvis.github.io/gallery/?image:(bar+chart))                     | CLIP semantic search over the pictures (`\|topk:<N>` optional) |
 
 Combine several filters with `&`, or add multiple rows in **Advanced** and Apply. Full syntax and supported fields: [docs/SEARCH_FEATURES.md](./docs/SEARCH_FEATURES.md).
 
 ## For Developers
 
-| Command                | Description                                         |
-| ---------------------- | --------------------------------------------------- |
-| `pnpm install`         | Install dependencies                                |
-| `pnpm dev`             | Start the local app (`http://localhost:3333`)       |
-| `pnpm build`           | Build for production (GitHub Pages `base`)          |
-| `pnpm lint`            | Run ESLint                                          |
-| `pnpm typecheck`       | Check TypeScript types                              |
-| `pnpm test`            | Run unit tests (watch)                              |
-| `pnpm test:unit`       | Run unit tests once                                 |
-| `pnpm test:e2e`        | Run end-to-end tests                                |
-| `pnpm docs:screenshot` | Update `docs/images/screenshot.png` for this README |
+| Command                | Description                                                                 |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `pnpm install`         | Install dependencies                                                        |
+| `pnpm dev`             | Start the local app (`http://localhost:3333`)                               |
+| `pnpm build`           | Build for production (GitHub Pages `base`)                                  |
+| `pnpm lint`            | Run ESLint                                                                  |
+| `pnpm typecheck`       | Check TypeScript types                                                      |
+| `pnpm test`            | Run unit tests (watch)                                                      |
+| `pnpm test:unit`       | Run unit tests once                                                         |
+| `pnpm test:e2e`        | Run end-to-end tests                                                        |
+| `pnpm bench:embed`     | Profile CLIP image search (writes `test-results/embed-bench/chromium.json`) |
+| `pnpm docs:screenshot` | Update `docs/images/screenshot.png` for this README                         |
 
 You will need:
 

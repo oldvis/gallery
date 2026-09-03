@@ -74,4 +74,19 @@ describe('theViewEntries paging', () => {
     await flushPromises()
     expect(wrapper.find('[data-testid="entry-stub"]').text()).toBe('21')
   })
+
+  it('exposes entries-searching while selectors apply', async () => {
+    const { wrapper, selectorStore, visStore } = await mountEntries(1)
+    let release!: (value: typeof visStore.visualizations) => void
+    const blocked = new Promise<typeof visStore.visualizations>((resolve) => {
+      release = resolve
+    })
+    selectorStore.applySelectors = async () => blocked
+    selectorStore.addSearchSelector('Entry 0')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-testid="entries-searching"]').exists()).toBe(true)
+    release(visStore.visualizations)
+    await flushPromises()
+    expect(wrapper.find('[data-testid="entries-searching"]').exists()).toBe(false)
+  })
 })

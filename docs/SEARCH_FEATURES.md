@@ -39,6 +39,8 @@ Filter precisely by specific metadata fields using attribute-based queries.
 ### 3. Image Semantic Search
 
 Find visualizations by describing their visual content in natural language, powered by the CLIP model.
+The first `image:(...)` search in a browser tab downloads the text encoder from Hugging Face.
+Later searches in that tab reuse it.
 
 **Usage:** `image:(<description>)` syntax
 - [`image:(bar chart)`](https://oldvis.github.io/gallery/?image:(bar+chart)) — find bar charts
